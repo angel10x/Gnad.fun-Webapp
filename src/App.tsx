@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TokenCard } from '../components/TokenCard';
 import { CreateTokenDialog } from '../components/CreateTokenDialog';
 import { Button } from '../components/ui/button';
@@ -11,6 +11,17 @@ import {
   TabsTrigger,
 } from '../components/ui/tabs';
 import { Rocket, TrendingUp, Clock, Flame, Twitter, Youtube, Send, ChartArea, Wallet, Search } from 'lucide-react';
+
+declare global {
+  interface Window {
+    ethereum?: {
+      isMetaMask?: boolean;
+      request: (args: { method: string; params?: unknown[] }) => Promise<unknown>;
+      on?: (event: string, handler: (...args: unknown[]) => void) => void;
+      removeListener?: (event: string, handler: (...args: unknown[]) => void) => void;
+    };
+  }
+}
 
 interface Token {
   id: string;
@@ -144,6 +155,84 @@ const mockTokens: Token[] = [
 export default function App() {
   const [tokens, setTokens] = useState<Token[]>(mockTokens);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [account, setAccount] = useState<string | null>(null);
+  const [isConnecting, setIsConnecting] = useState(false);
+  const [walletError, setWalletError] = useState<string | null>(null);
+
+  const formatAccount = (address: string) =>
+    `${address.slice(0, 6)}...${address.slice(-4)}`;
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+    const storedAccount = window.localStorage.getItem('connectedAccount');
+    if (storedAccount) {
+      setAccount(storedAccount);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!window.ethereum?.on) {
+      return;
+    }
+
+    const handleAccountsChanged = (accounts: unknown) => {
+      if (!Array.isArray(accounts) || accounts.length === 0) {
+        setAccount(null);
+        window.localStorage.removeItem('connectedAccount');
+        return;
+      }
+
+      const nextAccount = accounts[0];
+      if (typeof nextAccount === 'string') {
+        setAccount(nextAccount);
+        window.localStorage.setItem('connectedAccount', nextAccount);
+      }
+    };
+
+    window.ethereum.on('accountsChanged', handleAccountsChanged);
+
+    return () => {
+      window.ethereum?.removeListener?.('accountsChanged', handleAccountsChanged);
+    };
+  }, []);
+
+  const connectWallet = async () => {
+    if (!window.ethereum?.request) {
+      setWalletError('MetaMask is not available in this browser.');
+      return;
+    }
+
+    try {
+      setWalletError(null);
+      setIsConnecting(true);
+      const accounts = (await window.ethereum.request({
+        method: 'eth_requestAccounts',
+      })) as string[];
+
+      if (!accounts || accounts.length === 0) {
+        setWalletError('No accounts found in MetaMask.');
+        setAccount(null);
+        window.localStorage.removeItem('connectedAccount');
+        return;
+      }
+
+      const selectedAccount = accounts[0];
+      setAccount(selectedAccount);
+      window.localStorage.setItem('connectedAccount', selectedAccount);
+    } catch (error) {
+      if ((error as { code?: number }).code === 4001) {
+        setWalletError('Connection request was rejected.');
+      } else {
+        setWalletError('Failed to connect to MetaMask.');
+      }
+      setAccount(null);
+      window.localStorage.removeItem('connectedAccount');
+    } finally {
+      setIsConnecting(false);
+    }
+  };
 
   const handleCreateToken = (
     tokenData: Omit<
@@ -177,6 +266,9 @@ export default function App() {
 
   const trendingTokens = [...tokens].sort(
     (a, b) => b.priceChange24h - a.priceChange24h
+  );
+  const topmarketcapTokens = [...tokens].sort(
+    (a, b) => b.marketCap - a.marketCap
   );
   const recentTokens = [...tokens].sort(
     (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
@@ -232,12 +324,19 @@ export default function App() {
                   <Send className="size-4" />
                 </a>
               </div>
-              <Button
-                onClick={() => setIsCreateDialogOpen(true)}
-                className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 cursor-pointer"
-              >
-                Connect
-              </Button>
+              <div className="flex flex-col items-end gap-2">
+                <Button
+                  onClick={connectWallet}
+                  disabled={isConnecting}
+                  className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 cursor-pointer"
+                >
+                  <Wallet className="size-4 mr-2" />
+                  {account ? formatAccount(account) : isConnecting ? 'Connecting…' : 'Connect Wallet'}
+                </Button>
+                {walletError && (
+                  <span className="text-sm text-red-400">{walletError}</span>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -297,21 +396,21 @@ export default function App() {
             <TabsList className="bg-white/5 border border-white/10">
               <TabsTrigger
                 value="trending"
-                className="data-[state=active]:bg-purple-500/20 text-white"
+                className="data-[state=active]:bg-purple-500/20 text-white cursor-pointer"
               >
                 <Flame className="size-4 mr-2" />
                 Trending
               </TabsTrigger>
               <TabsTrigger
                 value="marketcap"
-                className="data-[state=active]:bg-purple-500/20 text-white"
+                className="data-[state=active]:bg-purple-500/20 text-white cursor-pointer"
               >
                 <ChartArea className="size-4 mr-2" />
                 Top MC
               </TabsTrigger>
               <TabsTrigger
                 value="recent"
-                className="data-[state=active]:bg-purple-500/20 text-white"
+                className="data-[state=active]:bg-purple-500/20 text-white cursor-pointer"
               >
                 <Clock className="size-4 mr-2" />
                 Recent
@@ -325,6 +424,14 @@ export default function App() {
           <TabsContent value="trending">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {trendingTokens.map((token) => (
+                <TokenCard key={token.id} token={token} />
+              ))}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="marketcap">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {topmarketcapTokens.map((token) => (
                 <TokenCard key={token.id} token={token} />
               ))}
             </div>
