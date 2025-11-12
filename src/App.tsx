@@ -252,11 +252,6 @@ export default function App() {
           >
             Launch Token
           </Button>
-          {/* <img 
-            src="/imgs/gnad.png" 
-            alt="" 
-            className="mx-auto w-full max-w-4xl rounded-2xl shadow-[0_0_50px_rgba(168,85,247,0.4)] border-4 border-purple-500/30 hover:border-pink-500/50 transition-all duration-300 hover:shadow-[0_0_80px_rgba(236,72,153,0.6)] hover:scale-[1.02] bg-white/5 backdrop-blur-sm"
-          /> */}
         </div>
 
         {/* Stats */}
@@ -309,14 +304,14 @@ export default function App() {
               </TabsTrigger>
               <TabsTrigger
                 value="marketcap"
-                className="data-[state=active]:bg-purple-500/20"
+                className="data-[state=active]:bg-purple-500/20 text-white"
               >
                 <ChartArea className="size-4 mr-2" />
                 Top MC
               </TabsTrigger>
               <TabsTrigger
                 value="recent"
-                className="data-[state=active]:bg-purple-500/20"
+                className="data-[state=active]:bg-purple-500/20 text-white"
               >
                 <Clock className="size-4 mr-2" />
                 Recent
