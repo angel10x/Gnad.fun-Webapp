@@ -1,24 +1,9 @@
-import { Card } from './ui/card';
-import { Badge } from './ui/badge';
-import { Button } from './ui/button';
-import { TrendingUp, TrendingDown, Users, DollarSign } from 'lucide-react';
-import { LineChart, Line, ResponsiveContainer } from 'recharts';
-
-interface Token {
-  id: string;
-  name: string;
-  symbol: string;
-  description: string;
-  imageUrl: string;
-  creator: string;
-  marketCap: number;
-  price: number;
-  priceChange24h: number;
-  volume24h: number;
-  holders: number;
-  createdAt: Date;
-  chartData: { time: string; price: number }[];
-}
+import { Card } from "./ui/card";
+import { Badge } from "./ui/badge";
+import { Button } from "./ui/button";
+import { TrendingUp, TrendingDown, Users, DollarSign } from "lucide-react";
+import { LineChart, Line, ResponsiveContainer } from "recharts";
+import type { Token } from "../types/token";
 
 interface TokenCardProps {
   token: Token;

@@ -1,29 +1,35 @@
-import { useState } from 'react';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from './ui/dialog';
-import { Input } from './ui/input';
-import { Textarea } from './ui/textarea';
-import { Button } from './ui/button';
-import { Label } from './ui/label';
-import { Alert, AlertDescription } from './ui/alert';
-import { Rocket, Wallet, AlertCircle } from 'lucide-react';
+import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "./ui/dialog";
+import { Input } from "./ui/input";
+import { Textarea } from "./ui/textarea";
+import { Button } from "./ui/button";
+import { Label } from "./ui/label";
+import { Alert, AlertDescription } from "./ui/alert";
+import { Rocket, Wallet, AlertCircle } from "lucide-react";
+import type { Token } from "../types/token";
 
-interface Token {
-  name: string;
-  symbol: string;
-  description: string;
-  imageUrl: string;
-  creator: string;
-  price: number;
-  priceChange24h: number;
-}
+type CreateTokenPayload = Pick<
+  Token,
+  "name" | "symbol" | "description" | "imageUrl" | "creator" | "price" | "priceChange24h"
+>;
 
 interface CreateTokenDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onCreateToken: (token: Token) => void;
+  onCreateToken: (token: CreateTokenPayload) => void;
 }
 
-export function CreateTokenDialog({ open, onOpenChange, onCreateToken }: CreateTokenDialogProps) {
+export function CreateTokenDialog({
+  open,
+  onOpenChange,
+  onCreateToken,
+}: CreateTokenDialogProps) {
   const [formData, setFormData] = useState({
     name: '',
     symbol: '',
@@ -45,7 +51,7 @@ export function CreateTokenDialog({ open, onOpenChange, onCreateToken }: CreateT
       return;
     }
 
-    const token: Token = {
+    const token: CreateTokenPayload = {
       ...formData,
       imageUrl: formData.imageUrl || 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=200&h=200&fit=crop',
       creator: '0x' + Math.random().toString(16).substr(2, 8) + '...' + Math.random().toString(16).substr(2, 4),
