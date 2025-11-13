@@ -7,9 +7,8 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-import { Copy, ExternalLink, LogOut, Wallet } from "lucide-react";
+import { Copy, LogOut, Wallet } from "lucide-react";
 import { useEffect, useState } from "react";
-import { openExplorer } from "@/utils/explorer";
 import { toast } from "sonner";
 import { ChevronDown } from "lucide-react";
 
@@ -45,14 +44,6 @@ export function WalletDropdown() {
   const handleCopyAddress = () => {
     navigator.clipboard.writeText(account);
     toast.success("Address copied!");
-    setIsOpen(false);
-  };
-
-  const handleViewExplorer = () => {
-    const storedChainId = window.localStorage.getItem("chainId");
-    if (storedChainId && account) {
-      openExplorer(storedChainId, account);
-    }
     setIsOpen(false);
   };
 

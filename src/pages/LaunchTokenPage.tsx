@@ -7,7 +7,7 @@ import { Input } from "../components/ui/input";
 import { Textarea } from "../components/ui/textarea";
 import { Label } from "../components/ui/label";
 import { Alert, AlertDescription } from "../components/ui/alert";
-import { Rocket, Wallet, AlertCircle, Upload, Twitter, Send, Globe, ChevronDown, ChevronUp, Weight } from "lucide-react";
+import { Rocket, Wallet, AlertCircle, Upload, ChevronDown, ChevronUp } from "lucide-react";
 import { useGlobalContext } from "../context/GlobalContext";
 import { useTokenStore } from "../store/tokenStore";
 import { Logo } from "../components/Logo";

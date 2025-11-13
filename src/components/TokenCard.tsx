@@ -1,8 +1,6 @@
 import { Card } from "./ui/card";
 import { Badge } from "./ui/badge";
-import { Button } from "./ui/button";
 import { TrendingUp, TrendingDown, Users, DollarSign } from "lucide-react";
-import { LineChart, Line, ResponsiveContainer } from "recharts";
 import { formatNumber, formatPrice, getTimeAgo } from "../utils/formatters";
 import type { Token } from "../types/token";
 
@@ -35,7 +33,7 @@ export function TokenCard({ token }: TokenCardProps) {
         </div>
 
         {/* Chart */}
-        <div className="h-20 mb-4 -mx-2">
+        {/* <div className="h-20 mb-4 -mx-2">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={token.chartData}>
               <Line 
@@ -47,7 +45,7 @@ export function TokenCard({ token }: TokenCardProps) {
               />
             </LineChart>
           </ResponsiveContainer>
-        </div>
+        </div> */}
 
         {/* Price Info */}
         <div className="space-y-3 mb-4">
@@ -95,11 +93,6 @@ export function TokenCard({ token }: TokenCardProps) {
             {getTimeAgo(token.createdAt)}
           </div>
         </div>
-
-        {/* Action Button */}
-        <Button className="w-full mt-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600">
-          Trade Now
-        </Button>
       </div>
     </Card>
   );
