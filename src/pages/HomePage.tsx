@@ -3,15 +3,8 @@
 import { useState } from 'react';
 import { TokenCard } from '../components/TokenCard';
 import { CreateTokenDialog } from '../components/CreateTokenDialog';
+import { WalletDropdown } from '../components/WalletConnect/WalletDropdown';
 import { Button } from '../components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '../components/ui/dialog';
 import {
   Tabs,
   TabsContent,
@@ -26,50 +19,22 @@ import { Clock, Flame, Twitter, Youtube, Send, ChartArea, Wallet } from 'lucide-
 export default function HomePage() {
   const { tokens, addToken } = useTokenStore();
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-  const [isWalletDialogOpen, setIsWalletDialogOpen] = useState(false);
   const {
     account,
     connectWallet,
-    disconnectWallet: disconnect,
-    formatAccount,
     isConnecting,
-    walletError,
-    resetWalletError,
   } = useWallet();
 
   const handleLaunchTokenClick = () => {
-    resetWalletError();
     if (account) {
       setIsCreateDialogOpen(true);
       return;
     }
 
-    setIsWalletDialogOpen(true);
-  };
-
-  const handleConnectAndLaunch = async () => {
-    const connected = await connectWallet();
-    if (connected) {
-      setIsWalletDialogOpen(false);
-      setIsCreateDialogOpen(true);
-    }
-  };
-
-  const handleWalletDialogChange = (open: boolean) => {
-    setIsWalletDialogOpen(open);
-    if (!open) {
-      resetWalletError();
-    }
-  };
-
-  const handleWalletButtonClick = () => {
-    resetWalletError();
-    if (account) {
-      setIsWalletDialogOpen(true);
-      return;
-    }
     void connectWallet();
   };
+
+
 
   const handleCreateToken = (
     tokenData: Omit<
@@ -162,17 +127,7 @@ export default function HomePage() {
                 </a>
               </div>
               <div className="flex flex-col items-end gap-2">
-                <Button
-                  onClick={handleWalletButtonClick}
-                  disabled={isConnecting}
-                  className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 cursor-pointer"
-                >
-                  <Wallet className="size-4 mr-2" />
-                  {account ? formatAccount(account) : isConnecting ? 'Connecting…' : 'Connect Wallet'}
-                </Button>
-                {walletError && (
-                  <span className="text-sm text-red-400">{walletError}</span>
-                )}
+                <WalletDropdown />
               </div>
             </div>
           </div>
@@ -253,45 +208,6 @@ export default function HomePage() {
         onOpenChange={setIsCreateDialogOpen}
         onCreateToken={handleCreateToken}
       />
-      <Dialog open={isWalletDialogOpen} onOpenChange={handleWalletDialogChange}>
-        <DialogContent className="bg-black/90 border border-white/10 text-white">
-          <DialogHeader>
-            <DialogTitle>{account ? 'Switch Wallet' : 'Connect Wallet'}</DialogTitle>
-            <DialogDescription className="text-white/70">
-              {account
-                ? `You are connected as ${formatAccount(account)}. Connect a different MetaMask account to continue.`
-                : 'You need to connect your MetaMask wallet before launching a token.'}
-            </DialogDescription>
-          </DialogHeader>
-          {walletError && (
-            <div className="bg-red-500/20 border border-red-500/40 text-red-200 text-sm rounded-md px-3 py-2">
-              {walletError}
-            </div>
-          )}
-          <DialogFooter>
-            {account && (
-              <Button
-                onClick={disconnect}
-                variant="outline"
-                className="border-white/20 bg-transparent hover:bg-white/10 text-white"
-              >
-                Disconnect
-              </Button>
-            )}
-            <Button
-              onClick={handleConnectAndLaunch}
-              disabled={isConnecting}
-              className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 cursor-pointer"
-            >
-              {isConnecting
-                ? 'Connecting…'
-                : account
-                  ? 'Connect Different Account'
-                  : 'Connect MetaMask'}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }

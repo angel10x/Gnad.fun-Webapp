@@ -1,14 +1,17 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-const STORAGE_KEY = "connectedAccount";
+const STORAGE_KEY = "walletAddress";
+const CHAIN_STORAGE_KEY = "chainId";
+const CONNECTED_STORAGE_KEY = "walletConnected";
 
 export function useWallet() {
   const [account, setAccount] = useState<string | null>(null);
+  const [chainId, setChainId] = useState<string | null>(null);
   const [isConnecting, setIsConnecting] = useState(false);
   const [walletError, setWalletError] = useState<string | null>(null);
 
   const isMetaMaskAvailable = useMemo(
-    () => typeof window !== "undefined" && !!window.ethereum?.request,
+    () => typeof window !== "undefined" && !!window.ethereum?.isMetaMask,
     [],
   );
 
@@ -20,14 +23,37 @@ export function useWallet() {
   }, []);
 
   useEffect(() => {
-    if (typeof window === "undefined") {
+    if (typeof window === "undefined" || !isMetaMaskAvailable) {
       return;
     }
-    const storedAccount = window.localStorage.getItem(STORAGE_KEY);
-    if (storedAccount) {
-      setAccount(storedAccount);
-    }
-  }, []);
+
+    const restoreWalletConnection = async () => {
+      const savedAddress = window.localStorage.getItem(STORAGE_KEY);
+      const wasConnected = window.localStorage.getItem(CONNECTED_STORAGE_KEY) === "true";
+      const savedChainId = window.localStorage.getItem(CHAIN_STORAGE_KEY);
+
+      if (wasConnected && savedAddress) {
+        try {
+          const currentAccounts = await window.ethereum.request({
+            method: "eth_accounts",
+          }) as string[];
+
+          if (currentAccounts.includes(savedAddress)) {
+            setAccount(savedAddress);
+            if (savedChainId) {
+              setChainId(savedChainId);
+            }
+          } else {
+            clearWalletSession();
+          }
+        } catch (err) {
+          clearWalletSession();
+        }
+      }
+    };
+
+    restoreWalletConnection();
+  }, [isMetaMaskAvailable]);
 
   useEffect(() => {
     if (typeof window === "undefined" || !window.ethereum?.on) {
@@ -36,8 +62,7 @@ export function useWallet() {
 
     const handleAccountsChanged = (accounts: unknown) => {
       if (!Array.isArray(accounts) || accounts.length === 0) {
-        setAccount(null);
-        window.localStorage.removeItem(STORAGE_KEY);
+        clearWalletSession();
         return;
       }
 
@@ -48,11 +73,36 @@ export function useWallet() {
       }
     };
 
+    const handleChainChanged = (newChainId: unknown) => {
+      if (typeof newChainId === "string") {
+        setChainId(newChainId);
+        window.localStorage.setItem(CHAIN_STORAGE_KEY, newChainId);
+      }
+    };
+
+    const handleDisconnect = () => {
+      clearWalletSession();
+    };
+
     window.ethereum.on("accountsChanged", handleAccountsChanged);
+    window.ethereum.on("chainChanged", handleChainChanged);
+    window.ethereum.on("disconnect", handleDisconnect);
 
     return () => {
       window.ethereum?.removeListener?.("accountsChanged", handleAccountsChanged);
+      window.ethereum?.removeListener?.("chainChanged", handleChainChanged);
+      window.ethereum?.removeListener?.("disconnect", handleDisconnect);
     };
+  }, []);
+
+  const clearWalletSession = useCallback(() => {
+    setAccount(null);
+    setChainId(null);
+    if (typeof window !== "undefined") {
+      window.localStorage.removeItem(STORAGE_KEY);
+      window.localStorage.removeItem(CHAIN_STORAGE_KEY);
+      window.localStorage.removeItem(CONNECTED_STORAGE_KEY);
+    }
   }, []);
 
   const connectWallet = useCallback(async () => {
@@ -76,7 +126,6 @@ export function useWallet() {
           if (code === 4001) {
             throw permissionError;
           }
-          // Swallow unsupported method errors and continue with the fallback request.
         }
       }
 
@@ -86,14 +135,21 @@ export function useWallet() {
 
       if (!Array.isArray(accounts) || accounts.length === 0) {
         setWalletError("No accounts found in MetaMask.");
-        setAccount(null);
-        window.localStorage.removeItem(STORAGE_KEY);
+        clearWalletSession();
         return false;
       }
 
       const selectedAccount = accounts[0];
+      const newChainId = (await window.ethereum?.request({
+        method: "eth_chainId",
+      })) as string;
+
       setAccount(selectedAccount);
+      setChainId(newChainId);
       window.localStorage.setItem(STORAGE_KEY, selectedAccount);
+      window.localStorage.setItem(CONNECTED_STORAGE_KEY, "true");
+      window.localStorage.setItem(CHAIN_STORAGE_KEY, newChainId);
+      
       return true;
     } catch (error) {
       const code = (error as { code?: number }).code;
@@ -102,23 +158,17 @@ export function useWallet() {
       } else {
         setWalletError("Failed to connect to MetaMask.");
       }
-      setAccount(null);
-      if (typeof window !== "undefined") {
-        window.localStorage.removeItem(STORAGE_KEY);
-      }
+      clearWalletSession();
       return false;
     } finally {
       setIsConnecting(false);
     }
-  }, [account, isMetaMaskAvailable]);
+  }, [account, isMetaMaskAvailable, clearWalletSession]);
 
   const disconnectWallet = useCallback(() => {
-    setAccount(null);
-    if (typeof window !== "undefined") {
-      window.localStorage.removeItem(STORAGE_KEY);
-    }
+    clearWalletSession();
     setWalletError(null);
-  }, []);
+  }, [clearWalletSession]);
 
   const resetWalletError = useCallback(() => {
     setWalletError(null);
@@ -126,6 +176,7 @@ export function useWallet() {
 
   return {
     account,
+    chainId,
     isConnecting,
     walletError,
     isMetaMaskAvailable,
