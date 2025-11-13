@@ -3,6 +3,7 @@ import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { TrendingUp, TrendingDown, Users, DollarSign } from "lucide-react";
 import { LineChart, Line, ResponsiveContainer } from "recharts";
+import { formatNumber, formatPrice, getTimeAgo } from "../utils/formatters";
 import type { Token } from "../types/token";
 
 interface TokenCardProps {
@@ -11,38 +12,6 @@ interface TokenCardProps {
 
 export function TokenCard({ token }: TokenCardProps) {
   const isPositive = token.priceChange24h >= 0;
-  
-  const formatNumber = (num: number) => {
-    if (num >= 1000000) {
-      return `$${(num / 1000000).toFixed(2)}M`;
-    }
-    if (num >= 1000) {
-      return `$${(num / 1000).toFixed(1)}K`;
-    }
-    return `$${num.toFixed(2)}`;
-  };
-
-  const formatPrice = (price: number) => {
-    if (price < 0.001) {
-      return `$${price.toFixed(8)}`;
-    }
-    return `$${price.toFixed(6)}`;
-  };
-
-  const getTimeAgo = (date: Date) => {
-    const now = new Date();
-    const diffInMinutes = Math.floor((now.getTime() - date.getTime()) / (1000 * 60));
-    
-    if (diffInMinutes < 60) {
-      return `${diffInMinutes}m ago`;
-    }
-    const diffInHours = Math.floor(diffInMinutes / 60);
-    if (diffInHours < 24) {
-      return `${diffInHours}h ago`;
-    }
-    const diffInDays = Math.floor(diffInHours / 24);
-    return `${diffInDays}d ago`;
-  };
 
   return (
     <Card className="bg-white/5 border-white/10 backdrop-blur-lg overflow-hidden hover:bg-white/10 transition-all hover:scale-105 cursor-pointer">

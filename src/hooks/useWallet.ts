@@ -1,14 +1,17 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { switchNetwork } from "../utils/metamask";
 
 const STORAGE_KEY = "walletAddress";
 const CHAIN_STORAGE_KEY = "chainId";
 const CONNECTED_STORAGE_KEY = "walletConnected";
+const MONAD_TESTNET_CHAIN_ID = "0x279f";
 
 export function useWallet() {
   const [account, setAccount] = useState<string | null>(null);
   const [chainId, setChainId] = useState<string | null>(null);
   const [isConnecting, setIsConnecting] = useState(false);
   const [walletError, setWalletError] = useState<string | null>(null);
+  const [availableAccounts, setAvailableAccounts] = useState<string[]>([]);
 
   const isMetaMaskAvailable = useMemo(
     () => typeof window !== "undefined" && !!window.ethereum?.isMetaMask,
@@ -34,7 +37,7 @@ export function useWallet() {
 
       if (wasConnected && savedAddress) {
         try {
-          const currentAccounts = await window.ethereum.request({
+          const currentAccounts = await window.ethereum?.request({
             method: "eth_accounts",
           }) as string[];
 
@@ -111,9 +114,20 @@ export function useWallet() {
       return false;
     }
 
+    const previousAccount = account;
+    const previousChainId = chainId;
+
     try {
       setWalletError(null);
       setIsConnecting(true);
+
+      const currentChainId = (await window.ethereum?.request({
+        method: "eth_chainId",
+      })) as string;
+
+      if (currentChainId !== MONAD_TESTNET_CHAIN_ID) {
+        await switchNetwork(MONAD_TESTNET_CHAIN_ID);
+      }
 
       if (account) {
         try {
@@ -135,7 +149,12 @@ export function useWallet() {
 
       if (!Array.isArray(accounts) || accounts.length === 0) {
         setWalletError("No accounts found in MetaMask.");
-        clearWalletSession();
+        if (previousAccount) {
+          setAccount(previousAccount);
+          setChainId(previousChainId);
+        } else {
+          clearWalletSession();
+        }
         return false;
       }
 
@@ -158,12 +177,17 @@ export function useWallet() {
       } else {
         setWalletError("Failed to connect to MetaMask.");
       }
-      clearWalletSession();
+      if (previousAccount) {
+        setAccount(previousAccount);
+        setChainId(previousChainId);
+      } else {
+        clearWalletSession();
+      }
       return false;
     } finally {
       setIsConnecting(false);
     }
-  }, [account, isMetaMaskAvailable, clearWalletSession]);
+  }, [account, chainId, isMetaMaskAvailable, clearWalletSession]);
 
   const disconnectWallet = useCallback(() => {
     clearWalletSession();
@@ -172,6 +196,52 @@ export function useWallet() {
 
   const resetWalletError = useCallback(() => {
     setWalletError(null);
+  }, []);
+
+  const selectAccount = useCallback(async (selectedAddress: string) => {
+    const previousAccount = account;
+    const previousChainId = chainId;
+
+    try {
+      setWalletError(null);
+
+      if (!availableAccounts.includes(selectedAddress)) {
+        setWalletError("Selected account is not available.");
+        return false;
+      }
+
+      const newChainId = (await window.ethereum?.request({
+        method: "eth_chainId",
+      })) as string;
+
+      setAccount(selectedAddress);
+      setChainId(newChainId);
+      window.localStorage.setItem(STORAGE_KEY, selectedAddress);
+      window.localStorage.setItem(CONNECTED_STORAGE_KEY, "true");
+      window.localStorage.setItem(CHAIN_STORAGE_KEY, newChainId);
+      setAvailableAccounts([]);
+
+      return true;
+    } catch (error) {
+      setWalletError("Failed to select account.");
+      if (previousAccount) {
+        setAccount(previousAccount);
+        setChainId(previousChainId);
+      }
+      return false;
+    }
+  }, [account, chainId, availableAccounts]);
+
+  const switchToMonad = useCallback(async () => {
+    try {
+      setWalletError(null);
+      await switchNetwork(MONAD_TESTNET_CHAIN_ID);
+      return true;
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Failed to switch network";
+      setWalletError(errorMessage);
+      return false;
+    }
   }, []);
 
   return {
@@ -184,6 +254,9 @@ export function useWallet() {
     connectWallet,
     disconnectWallet,
     resetWalletError,
+    switchToMonad,
+    availableAccounts,
+    selectAccount,
   };
 }
 

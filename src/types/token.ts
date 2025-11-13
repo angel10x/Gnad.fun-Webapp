@@ -12,5 +12,8 @@ export interface Token {
   holders: number;
   createdAt: Date;
   chartData: { time: string; price: number }[];
+  twitter?: string;
+  telegram?: string;
+  website?: string;
 }
 

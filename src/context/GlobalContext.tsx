@@ -1,4 +1,4 @@
-import { createContext, useContext, ReactNode, useCallback, useState } from "react";
+import { createContext, useContext, ReactNode, useState } from "react";
 import type { Token } from "../types/token";
 import { useTokenStore } from "../store/tokenStore";
 import { useWallet } from "../hooks/useWallet";
@@ -16,6 +16,9 @@ interface GlobalContextType {
   connectWallet: () => Promise<boolean>;
   disconnectWallet: () => void;
   resetWalletError: () => void;
+  switchToMonad: () => Promise<boolean>;
+  availableAccounts: string[];
+  selectAccount: (address: string) => Promise<boolean>;
   isTokenDialogOpen: boolean;
   setIsTokenDialogOpen: (open: boolean) => void;
   theme: "light" | "dark";
@@ -36,6 +39,9 @@ export function GlobalProvider({ children }: { children: ReactNode }) {
     connectWallet,
     disconnectWallet,
     resetWalletError,
+    switchToMonad,
+    availableAccounts,
+    selectAccount,
   } = useWallet();
 
   const [isTokenDialogOpen, setIsTokenDialogOpen] = useState(false);
@@ -54,6 +60,9 @@ export function GlobalProvider({ children }: { children: ReactNode }) {
     connectWallet,
     disconnectWallet,
     resetWalletError,
+    switchToMonad,
+    availableAccounts,
+    selectAccount,
     isTokenDialogOpen,
     setIsTokenDialogOpen,
     theme,

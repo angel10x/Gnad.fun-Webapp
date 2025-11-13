@@ -2,7 +2,7 @@ import { useGlobalContext } from "@/context/GlobalContext";
 import { Button } from "@/components/ui/button";
 import { Loader2, Wallet } from "lucide-react";
 import { useEffect, useState } from "react";
-import { isMetaMaskInstalled, getMetaMaskDownloadUrl } from "@/utils/metamask";
+import { getMetaMaskDownloadUrl } from "@/utils/metamask";
 
 export function WalletConnectButton() {
   const { account, isConnecting, isMetaMaskAvailable, connectWallet } =
@@ -47,7 +47,7 @@ export function WalletConnectButton() {
       onClick={handleConnect}
       disabled={isConnecting}
       variant="default"
-      className="gap-2"
+      className="gap-2 disabled:opacity-100"
     >
       {isConnecting ? (
         <>
