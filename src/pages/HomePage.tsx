@@ -190,43 +190,6 @@ export default function HomePage() {
           </Button>
         </div>
 
-        {/* Stats */}
-        {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
-          <div className="bg-white/5 backdrop-blur-lg rounded-lg p-6 border border-white/10">
-            <div className="flex items-center gap-3">
-              <div className="size-12 rounded-full bg-purple-500/20 flex items-center justify-center">
-                <Flame className="size-6 text-purple-400" />
-              </div>
-              <div>
-                <div className="text-white/50 text-sm">Total Volume</div>
-                <div className="text-white">$2.93M</div>
-              </div>
-            </div>
-          </div>
-          <div className="bg-white/5 backdrop-blur-lg rounded-lg p-6 border border-white/10">
-            <div className="flex items-center gap-3">
-              <div className="size-12 rounded-full bg-pink-500/20 flex items-center justify-center">
-                <Rocket className="size-6 text-pink-400" />
-              </div>
-              <div>
-                <div className="text-white/50 text-sm">Tokens Launched</div>
-                <div className="text-white">{tokens.length}</div>
-              </div>
-            </div>
-          </div>
-          <div className="bg-white/5 backdrop-blur-lg rounded-lg p-6 border border-white/10">
-            <div className="flex items-center gap-3">
-              <div className="size-12 rounded-full bg-blue-500/20 flex items-center justify-center">
-                <TrendingUp className="size-6 text-blue-400" />
-              </div>
-              <div>
-                <div className="text-white/50 text-sm">Active Traders</div>
-                <div className="text-white">9,566</div>
-              </div>
-            </div>
-          </div>
-        </div> */}
-
         {/* Tabs for different views */}
         <Tabs defaultValue="trending" className="w-full">
           <div className="flex items-center justify-between mb-8">
