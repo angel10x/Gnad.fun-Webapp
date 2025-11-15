@@ -15,5 +15,8 @@ export interface Token {
   twitter?: string;
   telegram?: string;
   website?: string;
+  // Optional IPFS metadata CID and gateway URL
+  ipfsCid?: string;
+  metadataUrl?: string;
 }
 

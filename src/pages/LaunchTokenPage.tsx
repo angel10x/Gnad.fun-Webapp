@@ -12,6 +12,7 @@ import { useGlobalContext } from "../context/GlobalContext";
 import { useTokenStore } from "../store/tokenStore";
 import Header from "../components/Header";
 import { toast } from "sonner";
+import { uploadJsonToWeb3Storage, uploadFileToWeb3Storage } from '@/utils/ipfs';
 import type { Token } from "../types/token";
 
 type CreateTokenPayload = Pick<
@@ -34,6 +35,7 @@ export default function LaunchTokenPage() {
     telegram: '',
     website: '',
   });
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const [dragActive, setDragActive] = useState(false);
 
   const handleImageFileProcess = useCallback((file: File) => {
@@ -43,7 +45,9 @@ export default function LaunchTokenPage() {
     }
     const reader = new FileReader();
     reader.onload = (e) => {
+      // keep preview as data URL but store File for IPFS upload
       setFormData(prev => ({ ...prev, imageUrl: e.target?.result as string }));
+      setImageFile(file);
       toast.success('Image uploaded');
     };
     reader.readAsDataURL(file);
@@ -80,7 +84,7 @@ export default function LaunchTokenPage() {
     void connectWallet();
   }, [connectWallet]);
 
-  const handleSubmit = useCallback((e: React.FormEvent) => {
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!account) {
@@ -101,6 +105,55 @@ export default function LaunchTokenPage() {
       priceChange24h: 0,
     };
 
+    // upload image file separately to IPFS (if present) then upload metadata that references image CID
+    let imageCid: string | undefined;
+    if (imageFile) {
+      toast.loading('Uploading image to IPFS...');
+      try {
+        const r = await uploadFileToWeb3Storage(imageFile);
+        if (r?.cid) {
+          imageCid = r.cid;
+          // set imageUrl to gateway link
+          const gatewayUrl = `https://ipfs.io/ipfs/${imageCid}`;
+          setFormData((prev) => ({ ...prev, imageUrl: gatewayUrl }));
+          toast.success('Image uploaded to IPFS');
+        } else {
+          toast.error('Image upload to IPFS failed or not configured');
+        }
+      } catch (err) {
+        console.error(err);
+        toast.error('Image upload failed — proceeding without IPFS');
+      }
+    }
+
+    // prepare metadata for IPFS (reference the image CID if available)
+    const metadata = {
+      name: token.name,
+      symbol: token.symbol,
+      description: token.description,
+      image: imageCid ? `ipfs://${imageCid}` : token.imageUrl,
+      creator: token.creator,
+      twitter: token.twitter,
+      telegram: token.telegram,
+      website: token.website,
+      createdAt: new Date().toISOString(),
+    };
+
+    toast.loading('Uploading metadata to IPFS...');
+    let cid: string | undefined;
+    try {
+      const result = await uploadJsonToWeb3Storage(metadata);
+      if (result && result.cid) {
+        cid = result.cid;
+        toast.success('Metadata uploaded to IPFS');
+      } else {
+        toast.error('IPFS metadata upload not configured or failed — proceeding without IPFS');
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error('IPFS metadata upload failed — proceeding without IPFS');
+    }
+
     const newToken: Token = {
       ...token,
       id: Date.now().toString(),
@@ -115,6 +168,7 @@ export default function LaunchTokenPage() {
         { time: '12:00', price: token.price },
         { time: '16:00', price: token.price },
       ],
+      ...(cid ? { ipfsCid: cid, metadataUrl: `https://ipfs.io/ipfs/${cid}` } : {}),
     };
 
     addToken(newToken);

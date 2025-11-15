@@ -14,6 +14,7 @@ import { Wallet, AlertCircle, Upload, Send, Globe, ChevronDown } from "lucide-re
 import { useGlobalContext } from "../context/GlobalContext";
 import { toast } from "sonner";
 import type { Token } from "../types/token";
+import { uploadJsonToWeb3Storage, uploadFileToWeb3Storage } from '@/utils/ipfs';
 
 type CreateTokenPayload = Pick<
   Token,
@@ -42,6 +43,7 @@ export function CreateTokenDialog({
     telegram: '',
     website: '',
   });
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const [dragActive, setDragActive] = useState(false);
   const [errors, setErrors] = useState({
     name: '',
@@ -70,7 +72,9 @@ export function CreateTokenDialog({
     }
     const reader = new FileReader();
     reader.onload = (e) => {
+      // keep preview data URL and store file for IPFS upload
       setFormData(prev => ({ ...prev, imageUrl: e.target?.result as string }));
+      setImageFile(file);
       toast.success('Image uploaded');
     };
     reader.readAsDataURL(file);
@@ -127,18 +131,70 @@ export function CreateTokenDialog({
       return;
     }
 
-    const token: CreateTokenPayload = {
-      ...formData,
-      imageUrl: formData.imageUrl || 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=200&h=200&fit=crop',
-      creator: formatAccount(account),
-      price: 0.00001,
-      priceChange24h: 0,
-    };
+    (async () => {
+      const tokenBase: CreateTokenPayload = {
+        ...formData,
+        imageUrl: formData.imageUrl || 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=200&h=200&fit=crop',
+        creator: formatAccount(account),
+        price: 0.00001,
+        priceChange24h: 0,
+      };
 
-    onCreateToken(token);
-    resetForm();
-    onOpenChange(false);
-    toast.success('Token launched successfully!');
+      // Upload image file first if available
+      let imageCid: string | undefined;
+      if (imageFile) {
+        try {
+          toast.loading('Uploading image to IPFS...');
+          const r = await uploadFileToWeb3Storage(imageFile);
+          if (r?.cid) {
+            imageCid = r.cid;
+            tokenBase.imageUrl = `https://ipfs.io/ipfs/${imageCid}`;
+            toast.success('Image uploaded to IPFS');
+          } else {
+            toast.error('Image upload to IPFS failed or not configured');
+          }
+        } catch (err) {
+          console.error(err);
+          toast.error('Image upload failed — proceeding without IPFS');
+        }
+      }
+
+      // Prepare metadata and upload
+      const metadata = {
+        name: tokenBase.name,
+        symbol: tokenBase.symbol,
+        description: tokenBase.description,
+        image: imageCid ? `ipfs://${imageCid}` : tokenBase.imageUrl,
+        creator: tokenBase.creator,
+        twitter: tokenBase.twitter,
+        telegram: tokenBase.telegram,
+        website: tokenBase.website,
+        createdAt: new Date().toISOString(),
+      };
+
+      let cid: string | undefined;
+      try {
+        toast.loading('Uploading metadata to IPFS...');
+        const res = await uploadJsonToWeb3Storage(metadata);
+        if (res?.cid) {
+          cid = res.cid;
+          toast.success('Metadata uploaded to IPFS');
+        }
+      } catch (err) {
+        console.error(err);
+        toast.error('Metadata upload failed — proceeding without IPFS');
+      }
+
+      const outToken = {
+        ...tokenBase,
+        ...(cid ? { ipfsCid: cid, metadataUrl: `https://ipfs.io/ipfs/${cid}` } : {}),
+      };
+
+      onCreateToken(outToken);
+      resetForm();
+      onOpenChange(false);
+      toast.success('Token launched successfully!');
+    })();
   }, [account, formatAccount, formData, onCreateToken, resetForm, onOpenChange]);
 
   const handleConnectWallet = useCallback(() => {
