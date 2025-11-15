@@ -10,9 +10,7 @@ import { Alert, AlertDescription } from "../components/ui/alert";
 import { Rocket, Wallet, AlertCircle, Upload, ChevronDown, ChevronUp } from "lucide-react";
 import { useGlobalContext } from "../context/GlobalContext";
 import { useTokenStore } from "../store/tokenStore";
-import { Logo } from "../components/Logo";
-import { WalletDropdown } from "../components/WalletConnect/WalletDropdown";
-import { SOCIAL_LINKS } from "../constants/socialLinks";
+import Header from "../components/Header";
 import { toast } from "sonner";
 import type { Token } from "../types/token";
 
@@ -126,31 +124,7 @@ export default function LaunchTokenPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-black">
-      {/* Header */}
-      <header className="border-b border-white/10 bg-black/20 backdrop-blur-lg sticky top-0 z-40">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <Logo />
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-3">
-                {SOCIAL_LINKS.map(({ href, label, Icon }) => (
-                  <a
-                    key={label}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="size-9 rounded-full border border-purple-500/30 flex items-center justify-center text-purple-400 hover:text-white hover:border-purple-400 hover:bg-purple-500/20 transition-all"
-                    aria-label={label}
-                  >
-                    <Icon className="size-4" />
-                  </a>
-                ))}
-              </div>
-              <WalletDropdown />
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header sticky />
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-12 max-w-2xl">

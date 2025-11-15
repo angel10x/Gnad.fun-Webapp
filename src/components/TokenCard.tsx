@@ -3,6 +3,7 @@ import { Badge } from "./ui/badge";
 import { TrendingUp, TrendingDown, Users, DollarSign } from "lucide-react";
 import { formatNumber, formatPrice, getTimeAgo } from "../utils/formatters";
 import type { Token } from "../types/token";
+import { useNavigate } from "react-router-dom";
 
 interface TokenCardProps {
   token: Token;
@@ -10,9 +11,13 @@ interface TokenCardProps {
 
 export function TokenCard({ token }: TokenCardProps) {
   const isPositive = token.priceChange24h >= 0;
+  const navigate = useNavigate();
 
   return (
-    <Card className="bg-white/5 border-white/10 backdrop-blur-lg overflow-hidden hover:bg-white/10 transition-all hover:scale-105 cursor-pointer">
+    <Card
+      onClick={() => navigate(`/token/${token.id}`)}
+      className="bg-white/5 border-white/10 backdrop-blur-lg overflow-hidden hover:bg-white/10 transition-all hover:scale-105 cursor-pointer"
+    >
       <div className="p-6">
         {/* Header */}
         <div className="flex items-start gap-4 mb-4">
