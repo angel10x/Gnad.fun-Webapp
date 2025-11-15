@@ -1,9 +1,9 @@
 import { Card } from "./ui/card";
 import { Badge } from "./ui/badge";
-import { Button } from "./ui/button";
 import { TrendingUp, TrendingDown, Users, DollarSign } from "lucide-react";
-import { LineChart, Line, ResponsiveContainer } from "recharts";
+import { formatNumber, formatPrice, getTimeAgo } from "../utils/formatters";
 import type { Token } from "../types/token";
+import { useNavigate } from "react-router-dom";
 
 interface TokenCardProps {
   token: Token;
@@ -11,41 +11,13 @@ interface TokenCardProps {
 
 export function TokenCard({ token }: TokenCardProps) {
   const isPositive = token.priceChange24h >= 0;
-  
-  const formatNumber = (num: number) => {
-    if (num >= 1000000) {
-      return `$${(num / 1000000).toFixed(2)}M`;
-    }
-    if (num >= 1000) {
-      return `$${(num / 1000).toFixed(1)}K`;
-    }
-    return `$${num.toFixed(2)}`;
-  };
-
-  const formatPrice = (price: number) => {
-    if (price < 0.001) {
-      return `$${price.toFixed(8)}`;
-    }
-    return `$${price.toFixed(6)}`;
-  };
-
-  const getTimeAgo = (date: Date) => {
-    const now = new Date();
-    const diffInMinutes = Math.floor((now.getTime() - date.getTime()) / (1000 * 60));
-    
-    if (diffInMinutes < 60) {
-      return `${diffInMinutes}m ago`;
-    }
-    const diffInHours = Math.floor(diffInMinutes / 60);
-    if (diffInHours < 24) {
-      return `${diffInHours}h ago`;
-    }
-    const diffInDays = Math.floor(diffInHours / 24);
-    return `${diffInDays}d ago`;
-  };
+  const navigate = useNavigate();
 
   return (
-    <Card className="bg-white/5 border-white/10 backdrop-blur-lg overflow-hidden hover:bg-white/10 transition-all hover:scale-105 cursor-pointer">
+    <Card
+      onClick={() => navigate(`/token/${token.id}`)}
+      className="bg-white/5 border-white/10 backdrop-blur-lg overflow-hidden hover:bg-white/10 transition-all hover:scale-105 cursor-pointer"
+    >
       <div className="p-6">
         {/* Header */}
         <div className="flex items-start gap-4 mb-4">
@@ -66,7 +38,7 @@ export function TokenCard({ token }: TokenCardProps) {
         </div>
 
         {/* Chart */}
-        <div className="h-20 mb-4 -mx-2">
+        {/* <div className="h-20 mb-4 -mx-2">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={token.chartData}>
               <Line 
@@ -78,7 +50,7 @@ export function TokenCard({ token }: TokenCardProps) {
               />
             </LineChart>
           </ResponsiveContainer>
-        </div>
+        </div> */}
 
         {/* Price Info */}
         <div className="space-y-3 mb-4">
@@ -126,11 +98,6 @@ export function TokenCard({ token }: TokenCardProps) {
             {getTimeAgo(token.createdAt)}
           </div>
         </div>
-
-        {/* Action Button */}
-        <Button className="w-full mt-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600">
-          Trade Now
-        </Button>
       </div>
     </Card>
   );

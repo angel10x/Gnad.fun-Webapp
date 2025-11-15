@@ -12,5 +12,11 @@ export interface Token {
   holders: number;
   createdAt: Date;
   chartData: { time: string; price: number }[];
+  twitter?: string;
+  telegram?: string;
+  website?: string;
+  // Optional IPFS metadata CID and gateway URL
+  ipfsCid?: string;
+  metadataUrl?: string;
 }
 
