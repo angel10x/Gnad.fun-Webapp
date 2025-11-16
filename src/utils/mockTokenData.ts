@@ -27,8 +27,26 @@ export const mockTransactions: TX[] = [
 ];
 
 export const mockHolders = [
-  { address: '0x8341...6451', percentage: 99.8 },
-  { address: '0x527c...e088', percentage: 0.2 },
+  { address: 'Liquidity pool', percentage: 30.91, isLiquidityPool: true },
+  { address: 'Ccnu...Yz44', percentage: 29.10 },
+  { address: '2xKB...tuG5', percentage: 3.47 },
+  { address: 'Ds8c...nmxv', percentage: 2.98 },
+  { address: '7jMM...ZaPN', percentage: 2.77 },
+  { address: '5QYB...TZpe', percentage: 2.60 },
+  { address: 'Dire...uXVE', percentage: 2.21 },
+  { address: '6xwi...E6dr', percentage: 2.14 },
+  { address: '3QdY...7A88', percentage: 1.78 },
+  { address: 'A6cc...fWyc', percentage: 1.63 },
+  { address: '71NQ...21U8', percentage: 1.38 },
+  { address: '47Ka...PR86', percentage: 1.27 },
+  { address: 'EGy_..VWrc', percentage: 1.20 },
+  { address: 'Gsm1...3IQR', percentage: 0.84 },
+  { address: '3VRS...aTS5', percentage: 0.76 },
+  { address: 'Eytg...aTeL', percentage: 0.75 },
+  { address: '6tJ1...pZHZ', percentage: 0.75 },
+  { address: 'GCQk...GDCA', percentage: 0.72 },
+  { address: '49nF...4wX7', percentage: 0.70 },
+  { address: '7C7f...Ssiq', percentage: 0.68 },
 ];
 
 export const bondingCurveData = {

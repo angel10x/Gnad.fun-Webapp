@@ -1,6 +1,8 @@
 import { Logo } from './Logo';
 import { WalletDropdown } from './WalletConnect/WalletDropdown';
 import { SOCIAL_LINKS } from '../constants/socialLinks';
+import { Sun, Moon } from 'lucide-react';
+import { useGlobalContext } from '../context/GlobalContext';
 
 interface HeaderProps {
   sticky?: boolean;
@@ -9,6 +11,7 @@ interface HeaderProps {
 
 export function Header({ sticky = false, className = '' }: HeaderProps) {
   const stickyCls = sticky ? 'sticky top-0 z-40' : '';
+  const { theme, setTheme } = useGlobalContext();
 
   return (
     <header className={`border-b border-white/10 bg-black/20 backdrop-blur-lg ${stickyCls} ${className}`.trim()}>
@@ -16,7 +19,7 @@ export function Header({ sticky = false, className = '' }: HeaderProps) {
         <div className="flex items-center justify-between">
           <Logo />
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-3">
+            {/* <div className="flex items-center gap-3">
               {SOCIAL_LINKS.map(({ href, label, Icon }) => (
                 <a
                   key={label}
@@ -29,8 +32,15 @@ export function Header({ sticky = false, className = '' }: HeaderProps) {
                   <Icon className="size-4" />
                 </a>
               ))}
-            </div>
+            </div> */}
             <WalletDropdown />
+            <button
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              className="size-9 rounded-full border border-purple-500/30 flex items-center justify-center text-purple-400 hover:text-white hover:border-purple-400 hover:bg-purple-500/20 transition-all"
+              aria-label="Toggle theme"
+            >
+              {theme === 'dark' ? <Sun className="size-4" /> : <Moon className="size-4" />}
+            </button>
           </div>
         </div>
       </div>

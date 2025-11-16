@@ -15,6 +15,7 @@ import { useWallet } from '../hooks/useWallet';
 import { useTokenStore } from '../store/tokenStore';
 import { sortTokensByTrending, sortTokensByMarketCap, sortTokensByRecent } from '../utils/tokenSorting';
 import { Clock, Flame, ChartArea } from 'lucide-react';
+import Footer from '@/components/Footer';
 
 export default function HomePage() {
   const { tokens } = useTokenStore();
@@ -103,6 +104,7 @@ export default function HomePage() {
           </TabsContent>
         </Tabs>
       </div>
+      <Footer />
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { createContext, useContext, ReactNode, useState } from "react";
+import { createContext, useContext, ReactNode, useState, useEffect } from "react";
 import type { Token } from "../types/token";
 import { useTokenStore } from "../store/tokenStore";
 import { useWallet } from "../hooks/useWallet";
@@ -45,7 +45,22 @@ export function GlobalProvider({ children }: { children: ReactNode }) {
   } = useWallet();
 
   const [isTokenDialogOpen, setIsTokenDialogOpen] = useState(false);
-  const [theme, setTheme] = useState<"light" | "dark">("dark");
+  const [theme, setTheme] = useState<"light" | "dark">(() => {
+    const savedTheme = localStorage.getItem('theme') as "light" | "dark" | null;
+    return savedTheme || "dark";
+  });
+
+  useEffect(() => {
+    localStorage.setItem('theme', theme);
+    const htmlElement = document.documentElement;
+    if (theme === 'light') {
+      htmlElement.classList.remove('dark');
+      htmlElement.classList.add('light');
+    } else {
+      htmlElement.classList.remove('light');
+      htmlElement.classList.add('dark');
+    }
+  }, [theme]);
 
   const value: GlobalContextType = {
     tokens,
