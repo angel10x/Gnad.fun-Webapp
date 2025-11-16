@@ -13,8 +13,8 @@ export function Logo() {
         <circle cx="50" cy="45" r="4" fill="#a855f7" />
         <path d="M 35 48 L 50 58 L 65 48" stroke="url(#monadGrad)" strokeWidth="4" fill="none" strokeLinecap="round" />
       </svg>
-      <h1 className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
-        <a href="/">GNAD.FUN</a> 
+      <h1 className="text-lg text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
+        <a href="/">GNAD.FUN</a>
       </h1>
     </div>
   );

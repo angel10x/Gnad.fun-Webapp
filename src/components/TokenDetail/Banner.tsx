@@ -1,5 +1,5 @@
 import { sampleToken } from '../../utils/mockTokenData';
-import { FaRegCopy } from 'react-icons/fa';
+// import { FaRegCopy } from 'react-icons/fa';
 import type { Token } from '../../types/token';
 import { useEffect, useState } from 'react';
 import { fetchJsonFromIpfs } from '@/utils/ipfs';
@@ -39,22 +39,21 @@ export default function Banner({ token: initialToken }: BannerProps) {
   }, [initialToken]);
 
   return (
-    <div className="bg-[#0d0d0d] rounded-[12px] shadow-sm p-5">
+    <div className="bg-[#0d0d0d] rounded-[12px] shadow-sm p-6">
       <div className="flex items-start gap-4">
         <img src={(token?.imageUrl) ?? sampleToken.imageUrl} alt={(token?.name) ?? sampleToken.name} className="w-16 h-16 rounded-full border-2 border-white/10" />
         <div className="flex-1">
           <div className="flex items-center gap-3">
-            <h2 className="text-white text-xl font-bold">{(token?.name) ?? sampleToken.name}</h2>
-            <span className="text-white/60">{(token?.symbol) ?? sampleToken.symbol}</span>
-            <span className="ml-auto text-white/40 text-sm">mCap to the 500k</span>
+            <h2 className="text-white font-bold" style={{ fontSize: "22px" }}>{(token?.name) ?? sampleToken.name}</h2>
+            <span className="text-white/60" style={{ fontSize: "22px", color: "#ffffffb2" }}>({(token?.symbol) ?? sampleToken.symbol})</span>
           </div>
+          <p className="font-base-white/70 text-base-sm mt-3">{(token?.description) ?? sampleToken.description}</p>
           <div className="flex items-center gap-3 mt-2 text-xs text-white/60">
-            <div>Creator: <span className="text-white/80">{(token?.creator) ?? sampleToken.creator}</span></div>
-            <div>•</div>
-            <div>Created: 1 year ago</div>
-            <button className="ml-2 text-white/60 hover:text-white"><FaRegCopy /></button>
+            <div className='font-base-white/70'>Creator: <span className="text-white">{(token?.creator) ?? sampleToken.creator}</span></div>
+            <div className='text-white'>•</div>
+            <div className='font-base-sm bg-[#434344] text-white'>Created: 1 year ago</div>
+            {/* <button className="ml-2 text-white/60 hover:text-white"><FaRegCopy /></button> */}
           </div>
-          <p className="text-white/60 text-xs mt-3">{(token?.description) ?? sampleToken.description}</p>
         </div>
       </div>
     </div>

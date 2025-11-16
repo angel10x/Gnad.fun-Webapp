@@ -9,17 +9,18 @@ export default function Toolbar() {
     const { timeframe, setTimeframe } = useChartStore();
 
     return (
-        <div className="sticky top-0 z-20 bg-transparent">
+        <div className="absolute top-28 z-20 bg-transparent text-white" style={{position:"absolute", top: "130px", zIndex: "100"}}>
             <div className="flex items-center gap-2 p-2">
-                <div className="flex-1 flex items-center gap-2">
+                <div className="flex-1 flex items-center gap-4">
                     {TIMEFRAMES.map((tf) => (
                         <button
                             key={tf}
                             onClick={() => setTimeframe(tf)}
-                            className={classNames('text-xs px-3 py-1.5 rounded font-medium transition', {
-                                'bg-white/10 text-white': timeframe === tf,
-                                'text-white/60 hover:text-white': timeframe !== tf,
+                            className={classNames('text-xs py-1 px-3 rounded-lg font-medium transition cursor-pointer', {
+                                'text-[#eab308]': timeframe === tf,
+                                'text-white/60 hover:text-white hover:bg-white/10': timeframe !== tf,
                             })}
+                            style={timeframe === tf ? { color: 'yellow' } : {}}
                         >
                             {tf}
                         </button>

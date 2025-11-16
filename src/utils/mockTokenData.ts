@@ -2,8 +2,8 @@ import { UTCTimestamp } from 'lightweight-charts';
 
 export const sampleToken = {
   id: 'baby-pepe',
-  name: 'Pepe (BabyPepe)',
-  symbol: 'BabyPepe',
+  name: 'Pepe',
+  symbol: 'Pepe',
   imageUrl: '/public/imgs/pepe.png',
   creator: '0xd2f0...d652',
   createdAt: Date.now() - 1000 * 60 * 60 * 24 * 365,
