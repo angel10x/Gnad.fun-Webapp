@@ -11,10 +11,12 @@ import { Copy, LogOut, Wallet } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { ChevronDown } from "lucide-react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export function WalletDropdown() {
   const { account, formatAccount, disconnectWallet, connectWallet, isConnecting } =
     useGlobalContext();
+  const t = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
@@ -34,7 +36,7 @@ export function WalletDropdown() {
         className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 cursor-pointer"
       >
         <Wallet className="size-4 mr-2" />
-        {isConnecting ? 'Connecting…' : 'Connect Wallet'}
+        {isConnecting ? t.header.connecting : t.header.connectWallet}
       </Button>
     );
   }
@@ -43,14 +45,14 @@ export function WalletDropdown() {
 
   const handleCopyAddress = () => {
     navigator.clipboard.writeText(account);
-    toast.success("Address copied!");
+    toast.success(t.wallet.addressCopied);
     setIsOpen(false);
   };
 
   const handleDisconnect = () => {
     disconnectWallet();
     setIsOpen(false);
-    toast.info("Wallet disconnected");
+    toast.info(t.wallet.disconnected);
   };
 
   const handleChangeAccount = async () => {
@@ -87,7 +89,7 @@ export function WalletDropdown() {
           className="cursor-pointer px-4 py-3 text-white/80 hover:text-white focus:text-white hover:bg-purple-500/20 focus:bg-purple-500/20 rounded-lg mx-0 transition-all duration-200 flex items-center gap-3 group"
         >
           <Copy className="size-4 text-purple-400 group-hover:text-purple-300 transition-colors" />
-          <span className="font-medium">Copy Address</span>
+          <span className="font-medium">{t.wallet.copyAddress}</span>
         </DropdownMenuItem>
 
         <DropdownMenuSeparator className="bg-purple-500/10 my-3" />
@@ -97,7 +99,7 @@ export function WalletDropdown() {
           className="cursor-pointer px-4 py-3 text-white/80 hover:text-white focus:text-white hover:bg-purple-500/20 focus:bg-purple-500/20 rounded-lg mx-0 transition-all duration-200 flex items-center gap-3 group"
         >
           <Wallet className="size-4 text-purple-400 group-hover:text-purple-300 transition-colors" />
-          <span className="font-medium">Change Account</span>
+          <span className="font-medium">{t.wallet.changeAccount}</span>
         </DropdownMenuItem>
 
         <DropdownMenuSeparator className="bg-purple-500/10 my-3" />
@@ -107,7 +109,7 @@ export function WalletDropdown() {
           className="cursor-pointer px-4 py-3 text-red-400/90 hover:text-red-300 focus:text-red-300 hover:bg-red-500/20 focus:bg-red-500/20 rounded-lg mx-0 transition-all duration-200 flex items-center gap-3 group"
         >
           <LogOut className="size-4 text-red-400 group-hover:text-red-300 transition-colors" />
-          <span className="font-medium">Disconnect</span>
+          <span className="font-medium">{t.wallet.disconnect}</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

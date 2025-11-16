@@ -4,6 +4,7 @@ import { TrendingUp, TrendingDown, Users, DollarSign } from "lucide-react";
 import { formatNumber, formatPrice, getTimeAgo } from "../utils/formatters";
 import type { Token } from "../types/token";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "../hooks/useTranslation";
 
 interface TokenCardProps {
   token: Token;
@@ -12,6 +13,7 @@ interface TokenCardProps {
 export function TokenCard({ token }: TokenCardProps) {
   const isPositive = token.priceChange24h >= 0;
   const navigate = useNavigate();
+  const t = useTranslation();
 
   return (
     <Card
@@ -55,11 +57,11 @@ export function TokenCard({ token }: TokenCardProps) {
         {/* Price Info */}
         <div className="space-y-3 mb-4">
           <div className="flex items-center justify-between">
-            <span className="text-white/50 text-sm">Price</span>
+            <span className="text-white/50 text-sm">{t.tokenCard.price}</span>
             <span className="text-white">{formatPrice(token.price)}</span>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-white/50 text-sm">24h Change</span>
+            <span className="text-white/50 text-sm">{t.tokenCard.change24h}</span>
             <div className={`flex items-center gap-1 ${isPositive ? 'text-green-400' : 'text-red-400'}`}>
               {isPositive ? (
                 <TrendingUp className="size-4" />
@@ -76,14 +78,14 @@ export function TokenCard({ token }: TokenCardProps) {
           <div className="bg-white/5 rounded-lg p-3">
             <div className="flex items-center gap-2 mb-1">
               <DollarSign className="size-4 text-white/50" />
-              <span className="text-white/50 text-xs">Market Cap</span>
+              <span className="text-white/50 text-xs">{t.tokenCard.marketCap}</span>
             </div>
             <div className="text-white text-sm">{formatNumber(token.marketCap)}</div>
           </div>
           <div className="bg-white/5 rounded-lg p-3">
             <div className="flex items-center gap-2 mb-1">
               <Users className="size-4 text-white/50" />
-              <span className="text-white/50 text-xs">Holders</span>
+              <span className="text-white/50 text-xs">{t.tokenCard.holders}</span>
             </div>
             <div className="text-white text-sm">{token.holders.toLocaleString()}</div>
           </div>
@@ -92,7 +94,7 @@ export function TokenCard({ token }: TokenCardProps) {
         {/* Footer */}
         <div className="flex items-center justify-between pt-4 border-t border-white/10">
           <div className="text-white/50 text-xs">
-            by {token.creator}
+            {t.tokenCard.by} {token.creator}
           </div>
           <div className="text-white/50 text-xs">
             {getTimeAgo(token.createdAt)}

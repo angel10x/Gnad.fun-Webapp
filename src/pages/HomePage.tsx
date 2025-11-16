@@ -16,6 +16,7 @@ import { useTokenStore } from '../store/tokenStore';
 import { sortTokensByTrending, sortTokensByMarketCap, sortTokensByRecent } from '../utils/tokenSorting';
 import { Clock, Flame, ChartArea } from 'lucide-react';
 import Footer from '@/components/Footer';
+import { useTranslation } from '../hooks/useTranslation';
 
 export default function HomePage() {
   const { tokens } = useTokenStore();
@@ -24,6 +25,7 @@ export default function HomePage() {
     account,
     connectWallet,
   } = useWallet();
+  const t = useTranslation();
 
   const handleLaunchTokenClick = useCallback(() => {
     if (account) {
@@ -49,7 +51,7 @@ export default function HomePage() {
             onClick={handleLaunchTokenClick}
             className="p-6 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 cursor-pointer"
           >
-            Launch Token
+            {t.home.launchToken}
           </Button>
         </div>
 
@@ -61,21 +63,21 @@ export default function HomePage() {
               className="data-[state=active]:bg-purple-500/20 text-white cursor-pointer"
             >
               <Flame className="size-4 mr-2" />
-              Trending
+              {t.home.trending}
             </TabsTrigger>
             <TabsTrigger
               value="marketcap"
               className="data-[state=active]:bg-purple-500/20 text-white cursor-pointer"
             >
               <ChartArea className="size-4 mr-2" />
-              Top MC
+              {t.home.topMC}
             </TabsTrigger>
             <TabsTrigger
               value="recent"
               className="data-[state=active]:bg-purple-500/20 text-white cursor-pointer"
             >
               <Clock className="size-4 mr-2" />
-              Recent
+              {t.home.recent}
             </TabsTrigger>
           </TabsList>
 

@@ -23,6 +23,8 @@ interface GlobalContextType {
   setIsTokenDialogOpen: (open: boolean) => void;
   theme: "light" | "dark";
   setTheme: (theme: "light" | "dark") => void;
+  language: "en" | "zh";
+  setLanguage: (language: "en" | "zh") => void;
 }
 
 const GlobalContext = createContext<GlobalContextType | undefined>(undefined);
@@ -49,6 +51,10 @@ export function GlobalProvider({ children }: { children: ReactNode }) {
     const savedTheme = localStorage.getItem('theme') as "light" | "dark" | null;
     return savedTheme || "dark";
   });
+  const [language, setLanguage] = useState<"en" | "zh">(() => {
+    const savedLanguage = localStorage.getItem('language') as "en" | "zh" | null;
+    return savedLanguage || "en";
+  });
 
   useEffect(() => {
     localStorage.setItem('theme', theme);
@@ -61,6 +67,10 @@ export function GlobalProvider({ children }: { children: ReactNode }) {
       htmlElement.classList.add('dark');
     }
   }, [theme]);
+
+  useEffect(() => {
+    localStorage.setItem('language', language);
+  }, [language]);
 
   const value: GlobalContextType = {
     tokens,
@@ -82,6 +92,8 @@ export function GlobalProvider({ children }: { children: ReactNode }) {
     setIsTokenDialogOpen,
     theme,
     setTheme,
+    language,
+    setLanguage,
   };
 
   return (

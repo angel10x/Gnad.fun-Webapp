@@ -1,5 +1,7 @@
 import { SOCIAL_LINKS } from '../constants/socialLinks';
 import { Twitter } from 'lucide-react';
+import { useTranslation } from '../hooks/useTranslation';
+
 interface FooterProps {
   className?: string;
 }
@@ -11,14 +13,15 @@ const FOOTER_LINKS = [
 ];
 
 export function Footer({ className = '' }: FooterProps) {
+  const t = useTranslation();
   return (
     <footer className={`border-t border-white/10 bg-black/20 backdrop-blur-lg ${className}`.trim()}>
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between gap-8">
           <div className="flex flex-col">
-            <p className="font-base-sm text-white/70">The premier meme-coin platform empowering traders and creators on Monad.</p>
+            <p className="font-base-sm text-white/70">{t.footer.tagline}</p>
             <div className="flex items-center gap-2">
-              <span className="font-base-sm text-white/70 font-semibold">Follow us:</span>
+              <span className="font-base-sm text-white/70 font-semibold">{t.footer.followUs}</span>
               <div className="flex items-center gap-2 p-3 rounded-full ">
                 {/* {SOCIAL_LINKS.map(({ href, label, Icon }) => (
                   <a
@@ -52,7 +55,7 @@ export function Footer({ className = '' }: FooterProps) {
                 {label}
               </a>
             ))} */}
-            <span className="font-base-sm text-white/70">2025 © Let's Go to Monad! All Rights Reserved.</span>
+            <span className="font-base-sm text-white/70">{t.footer.copyright}</span>
           </div>
         </div>
       </div>

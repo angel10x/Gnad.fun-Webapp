@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { useTranslation } from '@/hooks/useTranslation';
 
 export default function TradePanel() {
+  const t = useTranslation();
   const [mode, setMode] = useState<'buy' | 'sell'>('buy');
   const [amount, setAmount] = useState('0.00');
   const [total, setTotal] = useState('0');
@@ -33,7 +35,7 @@ export default function TradePanel() {
               : 'bg-white/10 text-white hover:bg-white/15'
           }`}
         >
-          Buy
+          {t.trading.buy}
         </button>
         <button
           onClick={() => setMode('sell')}
@@ -43,13 +45,13 @@ export default function TradePanel() {
               : 'bg-white/10 text-white hover:bg-white/15'
           }`}
         >
-          Sell
+          {t.trading.sell}
         </button>
       </div>
 
       <div className="flex items-center justify-between text-sm">
-        <span className="text-white/60">Balance: 0 {mode === 'buy' ? 'ETH' : 'MANYU Musk'}</span>
-        <button className="text-white/60 hover:text-white text-xs underline">Slip {slip}%</button>
+        <span className="text-white/60">{t.common.balance} 0 {mode === 'buy' ? 'ETH' : 'MANYU Musk'}</span>
+        <button className="text-white/60 hover:text-white text-xs underline">{t.trading.slip} {slip}%</button>
       </div>
 
       <div className="bg-white/5 rounded-lg p-4">
@@ -91,12 +93,12 @@ export default function TradePanel() {
           onClick={() => handlePercentage(100)}
           className="py-2 px-2 bg-white/10 hover:bg-white/20 text-white text-xs rounded-lg transition-all"
         >
-          Max
+          {t.common.max}
         </button>
       </div>
 
       <div className="text-center py-2">
-        <span className="text-white/60 text-sm">Total</span>
+        <span className="text-white/60 text-sm">{t.trading.total}</span>
         <div className="text-white text-xl font-bold">{total}</div>
       </div>
 
@@ -108,7 +110,7 @@ export default function TradePanel() {
         }`}
         disabled={amount === '0.00' || amount === ''}
       >
-        {mode === 'buy' ? 'Enter Amount' : 'Enter Amount'}
+        {t.common.enterAmount}
       </button>
     </div>
   );

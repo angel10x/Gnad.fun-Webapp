@@ -3,6 +3,7 @@ import { sampleToken } from '../../utils/mockTokenData';
 import type { Token } from '../../types/token';
 import { useEffect, useState } from 'react';
 import { fetchJsonFromIpfs } from '@/utils/ipfs';
+import { useTranslation } from '@/hooks/useTranslation';
 
 interface BannerProps {
   token?: Token;
@@ -10,6 +11,7 @@ interface BannerProps {
 
 export default function Banner({ token: initialToken }: BannerProps) {
   const [token, setToken] = useState<Token | undefined>(initialToken);
+  const t = useTranslation();
 
   useEffect(() => {
     let mounted = true;
@@ -49,9 +51,9 @@ export default function Banner({ token: initialToken }: BannerProps) {
           </div>
           <p className="font-base-white/70 text-base-sm mt-3">{(token?.description) ?? sampleToken.description}</p>
           <div className="flex items-center gap-3 mt-2 text-xs text-white/60">
-            <div className='font-base-white/70'>Creator: <span className="text-white">{(token?.creator) ?? sampleToken.creator}</span></div>
+            <div className='font-base-white/70'>{t.tokenCard.creator} <span className="text-white">{(token?.creator) ?? sampleToken.creator}</span></div>
             <div className='text-white'>•</div>
-            <div className='font-base-sm bg-[#434344] text-white'>Created: 1 year ago</div>
+            <div className='font-base-sm bg-[#434344] text-white'>{t.tokenCard.created} 1 year ago</div>
             {/* <button className="ml-2 text-white/60 hover:text-white"><FaRegCopy /></button> */}
           </div>
         </div>
