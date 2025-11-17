@@ -28,12 +28,13 @@ export default function HomePage() {
   const t = useTranslation();
 
   const handleLaunchTokenClick = useCallback(() => {
-    if (account) {
+    // if (account) {
       navigate('/launch-token');
-      return;
-    }
+    //   return;
+    // }
 
-    void connectWallet();
+    // void connectWallet();
+    
   }, [account, connectWallet, navigate]);
 
   const trendingTokens = sortTokensByTrending(tokens);

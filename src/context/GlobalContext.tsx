@@ -8,21 +8,16 @@ interface GlobalContextType {
   addToken: (token: Token) => void;
   setTokens: (tokens: Token[]) => void;
   account: string | null;
-  chainId: string | null;
+  chainId: string | number | null;
   isConnecting: boolean;
   walletError: string | null;
-  isMetaMaskAvailable: boolean;
   formatAccount: (address: string) => string;
   connectWallet: () => Promise<boolean>;
   disconnectWallet: () => void;
   resetWalletError: () => void;
   switchToMonad: () => Promise<boolean>;
-  availableAccounts: string[];
-  selectAccount: (address: string) => Promise<boolean>;
   isTokenDialogOpen: boolean;
   setIsTokenDialogOpen: (open: boolean) => void;
-  theme: "light" | "dark";
-  setTheme: (theme: "light" | "dark") => void;
   language: "en" | "zh";
   setLanguage: (language: "en" | "zh") => void;
 }
@@ -36,37 +31,24 @@ export function GlobalProvider({ children }: { children: ReactNode }) {
     chainId,
     isConnecting,
     walletError,
-    isMetaMaskAvailable,
     formatAccount,
     connectWallet,
     disconnectWallet,
     resetWalletError,
     switchToMonad,
-    availableAccounts,
-    selectAccount,
   } = useWallet();
 
   const [isTokenDialogOpen, setIsTokenDialogOpen] = useState(false);
-  const [theme, setTheme] = useState<"light" | "dark">(() => {
-    const savedTheme = localStorage.getItem('theme') as "light" | "dark" | null;
-    return savedTheme || "dark";
-  });
   const [language, setLanguage] = useState<"en" | "zh">(() => {
     const savedLanguage = localStorage.getItem('language') as "en" | "zh" | null;
     return savedLanguage || "en";
   });
 
   useEffect(() => {
-    localStorage.setItem('theme', theme);
     const htmlElement = document.documentElement;
-    if (theme === 'light') {
-      htmlElement.classList.remove('dark');
-      htmlElement.classList.add('light');
-    } else {
-      htmlElement.classList.remove('light');
-      htmlElement.classList.add('dark');
-    }
-  }, [theme]);
+    htmlElement.classList.remove('dark');
+    htmlElement.classList.add('light');
+  }, []);
 
   useEffect(() => {
     localStorage.setItem('language', language);
@@ -80,18 +62,13 @@ export function GlobalProvider({ children }: { children: ReactNode }) {
     chainId,
     isConnecting,
     walletError,
-    isMetaMaskAvailable,
     formatAccount,
     connectWallet,
     disconnectWallet,
     resetWalletError,
     switchToMonad,
-    availableAccounts,
-    selectAccount,
     isTokenDialogOpen,
     setIsTokenDialogOpen,
-    theme,
-    setTheme,
     language,
     setLanguage,
   };

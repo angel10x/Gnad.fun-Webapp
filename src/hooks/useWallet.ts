@@ -46,11 +46,9 @@ export function useWallet() {
             if (savedChainId) {
               setChainId(savedChainId);
             }
-          } else {
-            clearWalletSession();
           }
         } catch (err) {
-          clearWalletSession();
+          // Error restoring wallet connection
         }
       }
     };
@@ -121,28 +119,6 @@ export function useWallet() {
       setWalletError(null);
       setIsConnecting(true);
 
-      const currentChainId = (await window.ethereum?.request({
-        method: "eth_chainId",
-      })) as string;
-
-      if (currentChainId !== MONAD_TESTNET_CHAIN_ID) {
-        await switchNetwork(MONAD_TESTNET_CHAIN_ID);
-      }
-
-      if (account) {
-        try {
-          await window.ethereum?.request({
-            method: "wallet_requestPermissions",
-            params: [{ eth_accounts: {} }],
-          });
-        } catch (permissionError) {
-          const code = (permissionError as { code?: number }).code;
-          if (code === 4001) {
-            throw permissionError;
-          }
-        }
-      }
-
       const accounts = (await window.ethereum?.request({
         method: "eth_requestAccounts",
       })) as string[];
@@ -159,15 +135,19 @@ export function useWallet() {
       }
 
       const selectedAccount = accounts[0];
-      const newChainId = (await window.ethereum?.request({
+      const currentChainId = (await window.ethereum?.request({
         method: "eth_chainId",
       })) as string;
 
+      if (currentChainId !== MONAD_TESTNET_CHAIN_ID) {
+        await switchNetwork(MONAD_TESTNET_CHAIN_ID);
+      }
+
       setAccount(selectedAccount);
-      setChainId(newChainId);
+      setChainId(currentChainId);
       window.localStorage.setItem(STORAGE_KEY, selectedAccount);
       window.localStorage.setItem(CONNECTED_STORAGE_KEY, "true");
-      window.localStorage.setItem(CHAIN_STORAGE_KEY, newChainId);
+      window.localStorage.setItem(CHAIN_STORAGE_KEY, currentChainId);
       
       return true;
     } catch (error) {

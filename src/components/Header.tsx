@@ -1,6 +1,6 @@
 import { Logo } from './Logo';
 import { WalletDropdown } from './WalletConnect/WalletDropdown';
-import { Sun, Moon, ChevronDown } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import { useGlobalContext } from '../context/GlobalContext';
 import {
   DropdownMenu,
@@ -10,7 +10,10 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
-import { useTranslation } from '../hooks/useTranslation';
+import { Account } from './WalletConnect/account';
+import { useAccount } from 'wagmi';
+import { WalletOptions } from './WalletConnect/wallet-options';
+// import { useTranslation } from '../hooks/useTranslation';
 
 interface HeaderProps {
   sticky?: boolean;
@@ -19,7 +22,7 @@ interface HeaderProps {
 
 export function Header({ sticky = false, className = '' }: HeaderProps) {
   const stickyCls = sticky ? 'sticky top-0 z-40' : '';
-  const { theme, setTheme, language, setLanguage } = useGlobalContext();
+  const { language, setLanguage } = useGlobalContext();
   const [isLangOpen, setIsLangOpen] = useState(false);
 
   return (
@@ -43,19 +46,12 @@ export function Header({ sticky = false, className = '' }: HeaderProps) {
               ))}
             </div> */}
             <WalletDropdown />
-            <button
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="size-9 rounded-full border border-purple-500/30 flex items-center justify-center text-purple-400 hover:text-white hover:border-purple-400 hover:bg-purple-500/20 transition-all"
-              aria-label="Toggle theme"
-            >
-              {theme === 'dark' ? <Sun className="size-4" /> : <Moon className="size-4" />}
-            </button>
             <DropdownMenu open={isLangOpen} onOpenChange={setIsLangOpen}>
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="outline"
                   size="default"
-                  className="gap-2 px-4 py-2 border-purple-500/30 bg-transparent hover:bg-purple-500/20 text-purple-400 hover:text-white transition-all duration-200 h-9"
+                  className="cursor-pointer gap-2 px-4 py-2 border-purple-500/30 bg-transparent hover:bg-purple-500/20 text-purple-400 hover:text-white transition-all duration-200 h-9"
                 >
                   <span className="text-sm font-medium">{language === 'en' ? 'EN' : '中文'}</span>
                   <ChevronDown
