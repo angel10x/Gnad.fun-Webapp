@@ -16,7 +16,7 @@ export default function TokenPage() {
                     <div className="flex flex-row md:flex-row gap-4 md:gap-6">
 
                         {/* CENTER */}
-                        <div className="border border-purple-900" style={{flex: "2"}}>
+                        <div className="border border-white/70 " style={{flex: "2"}}>
                             <div className="space-y-4 md:space-y-6">
                                 <Banner />
 

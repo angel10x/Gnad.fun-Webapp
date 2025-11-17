@@ -18,6 +18,7 @@ export default function BondingPanel() {
         <div className="mb-1 space-y-2">
           <div className="flex items-center justify-between">
             <span className="text-md font-base-white/70">{t.trading.progress}</span>
+            
             <span className="font-base-white/70 font-bold text-md">{data.progressPercent}%</span>
           </div>
           <div className="w-full bg-white/6 rounded-full h-2 overflow-hidden">

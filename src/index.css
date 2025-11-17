@@ -1760,6 +1760,23 @@ body {
     --tw-enter-scale: .95;
   }
 
+  @keyframes carousel-scroll {
+      0% {
+        transform: translateX(-100%);
+      }
+      100% {
+        display: flex;
+        transform: translateX(100%);
+        will-change: transform;
+      }
+    }
+    .carousel-container {
+      animation: carousel-scroll 30s linear infinite;
+    }
+    .carousel-container:hover {
+      animation-play-state: paused;
+    }
+
   @media (width >= 40rem) {
     .sm\:max-w-lg {
       max-width: var(--container-lg);

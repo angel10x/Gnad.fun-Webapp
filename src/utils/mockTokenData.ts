@@ -4,7 +4,7 @@ export const sampleToken = {
   id: 'baby-pepe',
   name: 'Pepe',
   symbol: 'Pepe',
-  imageUrl: '/public/imgs/pepe.png',
+  imageUrl: '/public/imgs/muffin.jpg',
   creator: '0xd2f0...d652',
   createdAt: Date.now() - 1000 * 60 * 60 * 24 * 365,
   description: 'Disclaimer: The tokens listed are not associated with this platform. Engage with them at your own discretion.',
