@@ -15,7 +15,7 @@ import { useTranslation } from "@/hooks/useTranslation";
 import { useDisconnect } from "wagmi";
 
 export function WalletDropdown() {
-  const { account, formatAccount, disconnectWallet, connectWallet, isConnecting } =
+  const { account, formatAccount, connectWallet, isConnecting } =
   useGlobalContext();
   const { disconnect } = useDisconnect()
   const t = useTranslation();

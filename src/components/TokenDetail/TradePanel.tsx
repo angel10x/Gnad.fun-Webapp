@@ -6,7 +6,7 @@ export default function TradePanel() {
   const [mode, setMode] = useState<'buy' | 'sell'>('buy');
   const [amount, setAmount] = useState('0.00');
   const [total, setTotal] = useState('0');
-  const [slip, setSlip] = useState('1');
+  // const [slip, setSlip] = useState('1');
 
   const handlePercentage = (percent: number) => {
     if (percent === 0) {
@@ -51,7 +51,7 @@ export default function TradePanel() {
 
       <div className="flex items-center justify-between text-sm">
         <span className="text-white/60">{t.common.balance} 0 {mode === 'buy' ? 'ETH' : 'MANYU Musk'}</span>
-        <button className="text-white/60 hover:text-white text-xs underline">{t.trading.slip} {slip}%</button>
+        <button className="text-white/60 hover:text-white text-xs underline">{t.trading.slip} {/* {slip} */}%</button>
       </div>
 
       <div className="bg-white/5 rounded-lg p-4">

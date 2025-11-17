@@ -1,16 +1,15 @@
-import { SOCIAL_LINKS } from '../constants/socialLinks';
 import { Twitter } from 'lucide-react';
 import { useTranslation } from '../hooks/useTranslation';
 
 interface FooterProps {
   className?: string;
 }
-const FOOTER_LINKS = [
+// const FOOTER_LINKS = [
   // { label: 'Home', href: '/' },
   // { label: 'Advanced', href: '/advanced' },
   // { label: 'Terms', href: '/terms' },
   // { label: 'Privacy', href: '/privacy' },
-];
+// ];
 
 export function Footer({ className = '' }: FooterProps) {
   const t = useTranslation();

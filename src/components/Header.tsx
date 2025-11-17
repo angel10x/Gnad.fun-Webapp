@@ -10,9 +10,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
-import { Account } from './WalletConnect/account';
-import { useAccount } from 'wagmi';
-import { WalletOptions } from './WalletConnect/wallet-options';
 // import { useTranslation } from '../hooks/useTranslation';
 
 interface HeaderProps {
