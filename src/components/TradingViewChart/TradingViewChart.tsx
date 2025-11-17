@@ -37,14 +37,14 @@ export default function TradingViewChart({ className }: { className?: string }) 
       <div className="flex-1 flex flex-col">
         <Toolbar/>
 
-        <div className="flex-1 flex overflow-hidden p-3">
-          <div className="flex-1 rounded-lg overflow-hidden flex flex-col">
+        <div className="flex-1 flex overflow-hidden">
+          <div className="flex-1 overflow-hidden flex flex-col">
             {/* Chart container; hook mounts chart here */}
             <div ref={containerRef} className="w-full h-full" style={{ minHeight: 360 }} />
           </div>
         </div>
 
-        <div className="p-3">
+        <div className="">
           <RangeSlider min={min} max={max} from={rangeFrom} to={rangeTo} onChange={onRangeChange} />
         </div>
       </div>

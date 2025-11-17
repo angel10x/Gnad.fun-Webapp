@@ -13,6 +13,7 @@ import { Alert, AlertDescription } from "./ui/alert";
 import { Wallet, AlertCircle, Upload, Send, Globe, ChevronDown } from "lucide-react";
 import { useGlobalContext } from "../context/GlobalContext";
 import { toast } from "sonner";
+import { useTranslation } from "../hooks/useTranslation";
 import type { Token } from "../types/token";
 import { uploadJsonToWeb3Storage, uploadFileToWeb3Storage } from '@/utils/ipfs';
 
@@ -33,6 +34,7 @@ export function CreateTokenDialog({
   onCreateToken,
 }: CreateTokenDialogProps) {
   const { account, formatAccount, connectWallet } = useGlobalContext();
+  const t = useTranslation();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [formData, setFormData] = useState({
     name: '',
@@ -207,10 +209,10 @@ export function CreateTokenDialog({
         <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 to-pink-500/5 pointer-events-none rounded-lg" />
         <DialogHeader className="relative z-10">
           <DialogTitle className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-pink-300 to-purple-300 drop-shadow-lg">
-            🚀 Launch Your Meme Token
+            {t.launchToken.launchYourToken}
           </DialogTitle>
           <DialogDescription className="text-white/70">
-            Create your own token in seconds. No coding required.
+            {t.common.noCodeRequired}
           </DialogDescription>
         </DialogHeader>
 
@@ -221,7 +223,7 @@ export function CreateTokenDialog({
               <Alert className="bg-purple-500/10 border-purple-500/30">
                 <AlertCircle className="size-4 text-purple-400" />
                 <AlertDescription className="text-white/70">
-                  Connect your wallet to launch a token
+                  {t.launchToken.connectWalletToLaunch}
                 </AlertDescription>
               </Alert>
               <Button
@@ -230,14 +232,14 @@ export function CreateTokenDialog({
                 className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
               >
                 <Wallet className="size-4 mr-2" />
-                Connect Wallet
+                {t.header.connectWallet}
               </Button>
             </>
           ) : (
             <>
               <div className="space-y-4">
                 <div>
-                  <Label className="text-white font-semibold mb-2 block">Token Image</Label>
+                  <Label className="text-white font-semibold mb-2 block">{t.launchToken.uploadImage}</Label>
                   <input
                     ref={fileInputRef}
                     type="file"
@@ -264,23 +266,23 @@ export function CreateTokenDialog({
                           alt="preview"
                           className="w-24 h-24 rounded-lg mx-auto object-cover"
                         />
-                        <p className="text-sm text-white/70">Click or drag to change</p>
+                        <p className="text-sm text-white/70">{t.launchToken.clickOrDrag}</p>
                       </div>
                     ) : (
                       <div className="space-y-2">
                         <Upload className="size-8 mx-auto text-gray-400" />
-                        <p className="text-white/70">Drag & drop an image here, or click to select</p>
-                        <p className="text-xs text-white/50">JPEG, PNG - larger images will be auto-resized to 100kB</p>
+                        <p className="text-white/70">{t.launchToken.dragDropFull}</p>
+                        <p className="text-xs text-white/50">{t.common.jpegPng}</p>
                       </div>
                     )}
                   </div>
                 </div>
 
                 <div className="space-y-1">
-                  <Label htmlFor="name" className="text-white font-semibold">Name</Label>
+                  <Label htmlFor="name" className="text-white font-semibold">{t.launchToken.tokenName}</Label>
                   <Input
                     id="name"
-                    placeholder="Enter token name..."
+                    placeholder={t.common.enterTokenName}
                     value={formData.name}
                     onChange={(e) => {
                       setFormData({ ...formData, name: e.target.value });
@@ -298,10 +300,10 @@ export function CreateTokenDialog({
                 </div>
 
                 <div className="space-y-1">
-                  <Label htmlFor="symbol" className="text-white font-semibold">Symbol</Label>
+                  <Label htmlFor="symbol" className="text-white font-semibold">{t.launchToken.tokenSymbol}</Label>
                   <Input
                     id="symbol"
-                    placeholder="e.g. TOKEN"
+                    placeholder={t.common.enterToken}
                     value={formData.symbol}
                     onChange={(e) => {
                       setFormData({ ...formData, symbol: e.target.value.toUpperCase() });
@@ -321,8 +323,8 @@ export function CreateTokenDialog({
 
                 <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-4 flex items-center justify-between">
                   <div>
-                    <Label className="text-white font-semibold block">Creator Buy (ETH)</Label>
-                    <p className="text-xs text-white/60 mt-1">Enable to buy tokens at launch with ETH</p>
+                    <Label className="text-white font-semibold block">{t.launchToken.creatorBuy}</Label>
+                    <p className="text-xs text-white/60 mt-1">{t.launchToken.creatorBuyDesc}</p>
                   </div>
                   <div className="flex items-center">
                     <input
@@ -339,7 +341,7 @@ export function CreateTokenDialog({
                   onClick={() => setSocialsExpanded(!socialsExpanded)}
                   className="w-full bg-lime-400 text-black font-semibold py-3 rounded-lg flex items-center justify-between px-4 hover:bg-lime-500 transition-colors"
                 >
-                  <span>Socials</span>
+                  <span>{t.launchToken.socials}</span>
                   <ChevronDown className={`size-4 transition-transform ${socialsExpanded ? 'rotate-180' : ''}`} />
                 </button>
 
@@ -350,7 +352,7 @@ export function CreateTokenDialog({
                         X
                       </Label>
                       <Input
-                        placeholder="@username"
+                        placeholder={t.launchToken.exampleUsername}
                         value={formData.twitter}
                         onChange={(e) => setFormData({ ...formData, twitter: e.target.value })}
                         className="bg-gray-700/50 border border-gray-600 text-white placeholder:text-white/30 text-sm"
@@ -358,10 +360,10 @@ export function CreateTokenDialog({
                     </div>
                     <div className="space-y-1">
                       <Label className="text-xs text-white/60 flex items-center gap-1">
-                        <Send className="size-3" /> Telegram
+                        <Send className="size-3" /> {t.launchToken.telegram}
                       </Label>
                       <Input
-                        placeholder="@username"
+                        placeholder={t.launchToken.exampleUsername}
                         value={formData.telegram}
                         onChange={(e) => setFormData({ ...formData, telegram: e.target.value })}
                         className="bg-gray-700/50 border border-gray-600 text-white placeholder:text-white/30 text-sm"
@@ -369,10 +371,10 @@ export function CreateTokenDialog({
                     </div>
                     <div className="space-y-1">
                       <Label className="text-xs text-white/60 flex items-center gap-1">
-                        <Globe className="size-3" /> Website
+                        <Globe className="size-3" /> {t.launchToken.website}
                       </Label>
                       <Input
-                        placeholder="example.com"
+                        placeholder={t.launchToken.exampleDomain}
                         value={formData.website}
                         onChange={(e) => setFormData({ ...formData, website: e.target.value })}
                         className="bg-gray-700/50 border border-gray-600 text-white placeholder:text-white/30 text-sm"
@@ -386,7 +388,7 @@ export function CreateTokenDialog({
                 type="submit"
                 className="w-full bg-lime-400 text-black font-semibold py-3 rounded-lg hover:bg-lime-500 transition-colors"
               >
-                Deploy
+                {t.launchToken.deploy}
               </Button>
             </>
           )}

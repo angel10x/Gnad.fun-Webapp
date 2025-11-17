@@ -13,6 +13,7 @@ import { useTokenStore } from "../store/tokenStore";
 import Header from "../components/Header";
 import { toast } from "sonner";
 import { uploadJsonToWeb3Storage, uploadFileToWeb3Storage } from '@/utils/ipfs';
+import { useTranslation } from "../hooks/useTranslation";
 import type { Token } from "../types/token";
 
 type CreateTokenPayload = Pick<
@@ -24,6 +25,7 @@ export default function LaunchTokenPage() {
   const navigate = useNavigate();
   const { account, formatAccount, connectWallet } = useGlobalContext();
   const { addToken } = useTokenStore();
+  const t = useTranslation();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [showSocials, setShowSocials] = useState(false);
   const [formData, setFormData] = useState({
@@ -189,10 +191,10 @@ export default function LaunchTokenPage() {
             {/* Title */}
             <div className="mb-8 text-center animate-in fade-in-0 slide-in-from-top-4 duration-500">
               <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-pink-300 to-purple-300 drop-shadow-lg mb-2">
-                🚀 Launch Your Meme Token
+                {t.launchToken.launchYourToken}
               </h1>
               <p className="text-lg text-white/70 animate-in fade-in-0 slide-in-from-top-2 duration-500" style={{fontWeight: "bold"}}>
-                Create New Token
+                {t.launchToken.createNewToken}
               </p>
             </div>
 
@@ -203,7 +205,7 @@ export default function LaunchTokenPage() {
                   <Alert className="bg-purple-500/10 border-purple-500/30 animate-in fade-in-0 slide-in-from-top-2 duration-500">
                     <AlertCircle className="size-4 text-purple-400" />
                     <AlertDescription className="text-white/70">
-                      Connect your wallet to launch a token
+                      {t.launchToken.connectWalletToLaunch}
                     </AlertDescription>
                   </Alert>
                   <Button
@@ -212,7 +214,7 @@ export default function LaunchTokenPage() {
                     className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 font-semibold py-2 transition-all duration-200  hover:shadow-lg"
                   >
                     <Wallet className="size-4 mr-2" />
-                    Connect Wallet
+                    {t.header.connectWallet}
                   </Button>
                 </>
               ) : (
@@ -220,7 +222,7 @@ export default function LaunchTokenPage() {
 
                   {/* Token Image */}
                   <div className="space-y-2 animate-in fade-in-0 slide-in-from-bottom-3 duration-500" style={{ animationDelay: '250ms' }}>
-                    <Label className="text-white font-semibold">Token Image</Label>
+                    <Label className="text-white font-semibold">{t.launchToken.uploadImage}</Label>
                     <input
                       ref={fileInputRef}
                       type="file"
@@ -247,23 +249,23 @@ export default function LaunchTokenPage() {
                             alt="preview"
                             className="w-20 h-20 rounded-full mx-auto object-cover border-2 border-purple-400/50 transition-transform duration-200 hover:scale-110"
                           />
-                          <p className="text-sm text-white/70">Click or drag to change</p>
+                          <p className="text-sm text-white/70">{t.launchToken.clickOrDrag}</p>
                         </div>
                       ) : (
                         <div className="space-y-2">
                           <Upload className="size-8 mx-auto text-purple-400 transition-transform duration-200 hover:scale-110" />
-                          <p className="text-white/70">Drag & drop your image</p>
-                          <p className="text-xs text-white/50">or click to browse</p>
+                          <p className="text-white/70">{t.launchToken.dragDrop}</p>
+                          <p className="text-xs text-white/50">{t.launchToken.orClickToBrowse}</p>
                         </div>
                       )}
                     </div>
                   </div>
                   {/* Token Name */}
                   <div className="space-y-2 animate-in fade-in-0 slide-in-from-bottom-3 duration-500" style={{ animationDelay: '100ms' }}>
-                    <Label htmlFor="name" className="text-white font-semibold">Token Name *</Label>
+                    <Label htmlFor="name" className="text-white font-semibold">{t.launchToken.tokenName} *</Label>
                     <Input
                       id="name"
-                      placeholder="e.g., Moon Doge"
+                      placeholder={t.launchToken.example}
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       className="bg-white/5 border-white/10 text-white placeholder:text-white/30 transition-all duration-200 hover:bg-white/10 hover:border-purple-400/50 focus:bg-white/10 focus:border-purple-400"
@@ -273,25 +275,25 @@ export default function LaunchTokenPage() {
 
                   {/* Token Symbol */}
                   <div className="space-y-2 animate-in fade-in-0 slide-in-from-bottom-3 duration-500" style={{ animationDelay: '150ms' }}>
-                    <Label htmlFor="symbol" className="text-white font-semibold">Token Symbol *</Label>
+                    <Label htmlFor="symbol" className="text-white font-semibold">{t.launchToken.tokenSymbol} *</Label>
                     <Input
                       id="symbol"
-                      placeholder="e.g., MDOGE"
+                      placeholder={t.launchToken.exampleSymbol}
                       value={formData.symbol}
                       onChange={(e) => setFormData({ ...formData, symbol: e.target.value.toUpperCase() })}
                       className="bg-white/5 border-white/10 text-white placeholder:text-white/30 transition-all duration-200 hover:bg-white/10 hover:border-purple-400/50 focus:bg-white/10 focus:border-purple-400"
                       maxLength={10}
                       required
                     />
-                    <p className="text-xs text-white/50">Max 10 characters</p>
+                    <p className="text-xs text-white/50">{t.launchToken.maxCharacters}</p>
                   </div>
 
                   {/* Description */}
                   <div className="space-y-2 animate-in fade-in-0 slide-in-from-bottom-3 duration-500" style={{ animationDelay: '200ms' }}>
-                    <Label htmlFor="description" className="text-white font-semibold">Description *</Label>
+                    <Label htmlFor="description" className="text-white font-semibold">{t.launchToken.description} *</Label>
                     <Textarea
                       id="description"
-                      placeholder="Tell the world about your token... Make it spicy! 🌶️"
+                      placeholder={t.launchToken.launchYourTokenDesc}
                       value={formData.description}
                       onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                       className="bg-white/5 border-white/10 text-white placeholder:text-white/30 min-h-24 transition-all duration-200 hover:bg-white/10 hover:border-purple-400/50 focus:bg-white/10 focus:border-purple-400"
@@ -307,7 +309,7 @@ export default function LaunchTokenPage() {
                       className="w-full flex items-center justify-between bg-gradient-to-r from-purple-500/10 to-pink-500/10 hover:from-purple-500/20 hover:to-pink-500/20 border border-purple-500/30 hover:border-purple-400/50 rounded-lg px-4 py-2 text-white font-bold transition-all duration-200 "
                     >
                       <span className="flex items-center gap-1">
-                        <span className="text-medium">🔗</span> Add Social Links
+                        <span className="text-medium">🔗</span> {t.launchToken.addSocialLinks}
                       </span>
                       {showSocials ? (
                         <ChevronUp className="size-5" />
@@ -324,10 +326,10 @@ export default function LaunchTokenPage() {
                         {/* X / Twitter */}
                         <div className="space-y-1 transition-all duration-200 text-white ">
                           <Label className="text-xs text-white/70 flex items-center gap-1 transition-colors duration-200">
-                            Twitter
+                            {t.launchToken.twitter}
                           </Label>
                           <Input
-                            placeholder="@username"
+                            placeholder={t.launchToken.exampleUsername}
                             value={formData.twitter}
                             onChange={(e) => setFormData({ ...formData, twitter: e.target.value })}
                             className="bg-white/5 border-white/10 text-white placeholder:text-white/30 text-sm h-8 transition-all duration-200 hover:bg-white/10 hover:border-blue-400/50 focus:bg-white/10 focus:border-blue-400"
@@ -337,10 +339,10 @@ export default function LaunchTokenPage() {
                         {/* Telegram */}
                         <div className="space-y-1 transition-all duration-200 ">
                           <Label className="text-xs text-white/70 flex items-center gap-1 transition-colors duration-200">
-                            Telegram
+                            {t.launchToken.telegram}
                           </Label>
                           <Input
-                            placeholder="@username"
+                            placeholder={t.launchToken.exampleUsername}
                             value={formData.telegram}
                             onChange={(e) => setFormData({ ...formData, telegram: e.target.value })}
                             className="bg-white/5 border-white/10 text-white placeholder:text-white/30 text-sm h-8 transition-all duration-200 hover:bg-white/10 hover:border-cyan-400/50 focus:bg-white/10 focus:border-cyan-400"
@@ -350,10 +352,10 @@ export default function LaunchTokenPage() {
                         {/* Website */}
                         <div className="space-y-1 transition-all duration-200 ">
                           <Label className="text-xs text-white/70 flex items-center gap-1 transition-colors duration-200">
-                            Website
+                            {t.launchToken.website}
                           </Label>
                           <Input
-                            placeholder="example.com"
+                            placeholder={t.launchToken.exampleDomain}
                             value={formData.website}
                             onChange={(e) => setFormData({ ...formData, website: e.target.value })}
                             className="bg-white/5 border-white/10 text-white placeholder:text-white/30 text-sm h-8 transition-all duration-200 hover:bg-white/10 hover:border-green-400/50 focus:bg-white/10 focus:border-green-400"
@@ -370,7 +372,7 @@ export default function LaunchTokenPage() {
                       className="flex-1 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 font-semibold text-base py-2 transition-all duration-200  hover:shadow-lg hover:shadow-purple-500/50 active:scale-95"
                     >
                       <Rocket className="size-4 mr-2 transition-transform duration-200 group-hover:rotate-12" />
-                      Launch Token
+                      {t.launchToken.launchButton}
                     </Button>
                   </div>
                 </>
