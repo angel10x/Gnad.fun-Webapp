@@ -15,12 +15,12 @@ const TrendingCarousel = () => {
 
   // Mock trending tokens based on the attachment image
   const trendingTokens: TrendingToken[] = [
-    { id: '1', symbol: 'PEPE', status: 'SOLD', imageUrl: '/public/imgs/nad1.jpg', marketCap: 1000, priceChange24h: 2.3 },
-    { id: '2', symbol: 'FROG', status: 'LAUNCHED', imageUrl: '/public/imgs/nad2.jpg', marketCap: 2500, priceChange24h: -1.2 },
-    { id: '3', symbol: 'MONKEY', status: 'SOLD', imageUrl: '/public/imgs/nad3.jpg', marketCap: 1800, priceChange24h: 4.5 },
-    { id: '4', symbol: 'CAT', status: 'SOLD', imageUrl: '/public/imgs/nad4.jpg', marketCap: 3200, priceChange24h: -2.1 },
-    { id: '5', symbol: 'MUFFIN', status: 'SOLD', imageUrl: '/public/imgs/nad5.jpg', marketCap: 1500, priceChange24h: 3.8 },
-    { id: '6', symbol: 'DOG', status: 'SOLD', imageUrl: '/public/imgs/nad6.jpg', marketCap: 2100, priceChange24h: -0.5 },
+    { id: '1', symbol: 'PEPE', status: 'SOLD', imageUrl: '/imgs/nad1.jpg', marketCap: 1000, priceChange24h: 2.3 },
+    { id: '2', symbol: 'FROG', status: 'LAUNCHED', imageUrl: '/imgs/nad2.jpg', marketCap: 2500, priceChange24h: -1.2 },
+    { id: '3', symbol: 'MONKEY', status: 'SOLD', imageUrl: '/imgs/nad3.jpg', marketCap: 1800, priceChange24h: 4.5 },
+    { id: '4', symbol: 'CAT', status: 'SOLD', imageUrl: '/imgs/nad4.jpg', marketCap: 3200, priceChange24h: -2.1 },
+    { id: '5', symbol: 'MUFFIN', status: 'SOLD', imageUrl: '/imgs/nad5.jpg', marketCap: 1500, priceChange24h: 3.8 },
+    { id: '6', symbol: 'DOG', status: 'SOLD', imageUrl: '/imgs/nad6.jpg', marketCap: 2100, priceChange24h: -0.5 },
   ];
 
   // Duplicate tokens for seamless looping
