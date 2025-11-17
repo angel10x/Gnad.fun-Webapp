@@ -10,6 +10,7 @@ interface BannerProps {
 }
 
 export default function Banner({ token: initialToken }: BannerProps) {
+  console.log('Banner initialToken:', initialToken);
   const [token, setToken] = useState<Token | undefined>(initialToken);
   const t = useTranslation();
 
