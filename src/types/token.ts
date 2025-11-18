@@ -2,7 +2,7 @@ export interface Token {
   id: string;
   name: string;
   symbol: string;
-  contractAddress: string;
+  contractAddress?: string;
   description: string;
   imageUrl: string;
   creator: string;

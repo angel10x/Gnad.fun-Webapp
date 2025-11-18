@@ -31,7 +31,7 @@ export default function TokenPage() {
   useEffect(() => {
     if (contractAddress) {
       const foundToken = tokens.find(
-        (t) => t.contractAddress.toLowerCase() === contractAddress.toLowerCase()
+        (t) => t?.contractAddress?.toLowerCase() === contractAddress?.toLowerCase()
       );
       setToken(foundToken);
     } else {
