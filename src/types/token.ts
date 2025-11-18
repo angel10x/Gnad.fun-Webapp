@@ -2,6 +2,7 @@ export interface Token {
   id: string;
   name: string;
   symbol: string;
+  contractAddress?: string;
   description: string;
   imageUrl: string;
   creator: string;
@@ -12,6 +13,7 @@ export interface Token {
   holders: number;
   createdAt: Date;
   chartData: { time: string; price: number }[];
+  status?: 'SOLD' | 'BOUGHT' | 'LAUNCHED';
   twitter?: string;
   telegram?: string;
   website?: string;

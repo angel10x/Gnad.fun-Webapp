@@ -17,7 +17,7 @@ export function TokenCard({ token }: TokenCardProps) {
 
   return (
     <Card
-      onClick={() => navigate(`/token/${token.id}`)}
+      onClick={() => navigate(`/token/${token.contractAddress}`)}
       className="bg-white/5 border-white/10 backdrop-blur-lg overflow-hidden hover:bg-white/10 transition-all hover:scale-105 cursor-pointer"
     >
       <div className="p-6">

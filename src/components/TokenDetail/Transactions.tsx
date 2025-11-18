@@ -14,7 +14,7 @@ export default function Transactions() {
                   <th className="py-2">Time</th>
                   <th className="px-3 py-2">Type</th>
                   <th className="px-3 py-2">USD</th>
-                  <th className="px-3 py-2">Token Qty</th>
+                  <th className="px-3 py-2">MarketCap</th>
                   <th className="px-3 py-2">MON</th>
                   <th className="px-3 py-2">Address</th>
                   <th className="px-3 py-2">Tx</th>

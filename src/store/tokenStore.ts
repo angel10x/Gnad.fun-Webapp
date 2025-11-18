@@ -4,11 +4,12 @@ import type { Token } from "../types/token";
 export const defaultTokens: Token[] = [
   {
     id: "1",
-    name: "Moon Doge",
-    symbol: "MDOGE",
+    name: "Pepe Doge",
+    symbol: "PEPE",
+    contractAddress: "0xaa0355359b71eb560c1c04683d42fc6eb13ec046",
     description: "To the moon! 🚀 The next generation of dog coins.",
     imageUrl:
-      "https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=200&h=200&fit=crop",
+      "/imgs/nad1.jpg",
     creator: "0x742d...a3f1",
     marketCap: 1250000,
     price: 0.000125,
@@ -26,11 +27,12 @@ export const defaultTokens: Token[] = [
   },
   {
     id: "2",
-    name: "Pepe Rocket",
-    symbol: "PRKT",
+    name: "Frog",
+    symbol: " FROG",
+    contractAddress: "0xbb0355359b71eb560c1c04683d42fc6eb13ec046",
     description: "Rare pepe going vertical 📈",
     imageUrl:
-      "https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?w=200&h=200&fit=crop",
+      "/imgs/nad2.jpg",
     creator: "0x891b...c4e2",
     marketCap: 890000,
     price: 0.00089,
@@ -48,11 +50,12 @@ export const defaultTokens: Token[] = [
   },
   {
     id: "3",
-    name: "Shiba Moon",
-    symbol: "SHIB2",
+    name: "Monkey",
+    symbol: "MONKEY",
+    contractAddress: "0xcc0355359b71eb560c1c04683d42fc6eb13ec046",
     description: "The OG is back with a vengeance 🐕",
     imageUrl:
-      "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=200&h=200&fit=crop",
+      "/imgs/nad3.jpg",
     creator: "0x123c...d9a4",
     marketCap: 2100000,
     price: 0.0021,
@@ -70,11 +73,12 @@ export const defaultTokens: Token[] = [
   },
   {
     id: "4",
-    name: "SafeMoon V3",
-    symbol: "SAFEV3",
+    name: "Cat",
+    symbol: "CAT",
+    contractAddress: "0xdd0355359b71eb560c1c04683d42fc6eb13ec046",
     description: "This time it's actually safe, trust me bro 🔒",
     imageUrl:
-      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=200&h=200&fit=crop",
+      "/imgs/nad4.jpg",
     creator: "0x456d...e8b3",
     marketCap: 560000,
     price: 0.00056,
@@ -92,11 +96,12 @@ export const defaultTokens: Token[] = [
   },
   {
     id: "5",
-    name: "Bonk Inu",
-    symbol: "BONK",
+    name: "Muffin",
+    symbol: "MUFFIN",
+    contractAddress: "0xee0355359b71eb560c1c04683d42fc6eb13ec046",
     description: "Bonk! Just bonk. That's it. 🏏",
     imageUrl:
-      "https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=200&h=200&fit=crop",
+      "/imgs/nad5.jpg",
     creator: "0x789e...f2c5",
     marketCap: 3400000,
     price: 0.0034,

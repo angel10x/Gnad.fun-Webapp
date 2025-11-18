@@ -1,18 +1,32 @@
 import { sampleToken } from '../../utils/mockTokenData';
-// import { FaRegCopy } from 'react-icons/fa';
+import { Copy } from 'lucide-react';
 import type { Token } from '../../types/token';
 import { useEffect, useState } from 'react';
 import { fetchJsonFromIpfs } from '@/utils/ipfs';
 import { useTranslation } from '@/hooks/useTranslation';
+import { useWallet } from '@/hooks/useWallet';
+import { toast } from 'sonner';
 
 interface BannerProps {
   token?: Token;
 }
 
 export default function Banner({ token: initialToken }: BannerProps) {
-  console.log('Banner initialToken:', initialToken);
   const [token, setToken] = useState<Token | undefined>(initialToken);
+  console.log('Banner token:', token);
+  const { formatAccount } = useWallet();
   const t = useTranslation();
+
+  const handleCopyAddress = () => {
+    if (token?.contractAddress) {
+      navigator.clipboard.writeText(token.contractAddress);
+      toast.success('Contract address copied to clipboard');
+    }
+  }; 
+
+  useEffect(() => {
+    setToken(initialToken);
+  }, [initialToken]);
 
   useEffect(() => {
     let mounted = true;
@@ -41,6 +55,8 @@ export default function Banner({ token: initialToken }: BannerProps) {
     return () => { mounted = false; };
   }, [initialToken]);
 
+
+
   return (
     <div className="bg-[#0d0d0d] rounded-[12px] shadow-sm p-6">
       <div className="flex items-start gap-4">
@@ -49,6 +65,16 @@ export default function Banner({ token: initialToken }: BannerProps) {
           <div className="flex items-center gap-3">
             <h2 className="text-white font-bold" style={{ fontSize: "22px" }}>{(token?.name) ?? sampleToken.name}</h2>
             <span className="text-white/60" style={{ fontSize: "22px", color: "#ffffffb2" }}>({(token?.symbol) ?? sampleToken.symbol})</span>
+            <div className="flex items-center font-base-white/70 ">
+              <span className='text-sm '>({formatAccount(token?.contractAddress ?? '')})</span>
+              <button
+                onClick={handleCopyAddress}
+                className="p-1 rounded hover:bg-white/10 transition-colors text-white/60 hover:text-white"
+                title="Copy contract address"
+              >
+                <Copy size={14} />
+              </button>
+            </div>
           </div>
           <p className="font-base-white/70 text-base-sm mt-3">{(token?.description) ?? sampleToken.description}</p>
           <div className="flex items-center gap-3 mt-2 text-xs text-white/60">
