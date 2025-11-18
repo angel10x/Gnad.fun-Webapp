@@ -8,28 +8,36 @@ import TrendingCarousel from '@/components/TrendingCarousel';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import type { Token } from '@/types/token';
-import { sampleToken } from '@/utils/mockTokenData';
+import { useTokenStore } from '@/store/tokenStore';
 
-const allTokens: Record<string, Partial<Token>> = {
-  '1': { id: '1', name: 'OxfL_De', symbol: 'OxfL_De', imageUrl: sampleToken.imageUrl, marketCap: 1000, priceChange24h: 2.3, creator: sampleToken.creator, description: sampleToken.description },
-  '2': { id: '2', name: '0x5d_tds', symbol: '0x5d_tds', imageUrl: sampleToken.imageUrl, marketCap: 2500, priceChange24h: -1.2, creator: sampleToken.creator, description: sampleToken.description },
-  '3': { id: '3', name: '0xfb__cd', symbol: '0xfb__cd', imageUrl: sampleToken.imageUrl, marketCap: 1800, priceChange24h: 4.5, creator: sampleToken.creator, description: sampleToken.description },
-  '4': { id: '4', name: 'OxXd_Drl', symbol: 'OxXd_Drl', imageUrl: sampleToken.imageUrl, marketCap: 3200, priceChange24h: -2.1, creator: sampleToken.creator, description: sampleToken.description },
-  '5': { id: '5', name: 'OxcL_fse', symbol: 'OxcL_fse', imageUrl: sampleToken.imageUrl, marketCap: 1500, priceChange24h: 3.8, creator: sampleToken.creator, description: sampleToken.description },
-  '6': { id: '6', name: '0xAd_jed', symbol: '0xAd_jed', imageUrl: sampleToken.imageUrl, marketCap: 2100, priceChange24h: -0.5, creator: sampleToken.creator, description: sampleToken.description },
-};
+// const allTokens: Record<string, Partial<Token>> = {
+//   '1': { id: '1', name: 'OxfL_De', symbol: 'OxfL_De', imageUrl: sampleToken.imageUrl, marketCap: 1000, priceChange24h: 2.3, creator: sampleToken.creator, description: sampleToken.description },
+//   '2': { id: '2', name: '0x5d_tds', symbol: '0x5d_tds', imageUrl: sampleToken.imageUrl, marketCap: 2500, priceChange24h: -1.2, creator: sampleToken.creator, description: sampleToken.description },
+//   '3': { id: '3', name: '0xfb__cd', symbol: '0xfb__cd', imageUrl: sampleToken.imageUrl, marketCap: 1800, priceChange24h: 4.5, creator: sampleToken.creator, description: sampleToken.description },
+//   '4': { id: '4', name: 'OxXd_Drl', symbol: 'OxXd_Drl', imageUrl: sampleToken.imageUrl, marketCap: 3200, priceChange24h: -2.1, creator: sampleToken.creator, description: sampleToken.description },
+//   '5': { id: '5', name: 'OxcL_fse', symbol: 'OxcL_fse', imageUrl: sampleToken.imageUrl, marketCap: 1500, priceChange24h: 3.8, creator: sampleToken.creator, description: sampleToken.description },
+//   '6': { id: '6', name: '0xAd_jed', symbol: '0xAd_jed', imageUrl: sampleToken.imageUrl, marketCap: 2100, priceChange24h: -0.5, creator: sampleToken.creator, description: sampleToken.description },
+// };
 
 export default function TokenPage() {
-  const { id } = useParams<{ id: string }>();
+  const { tokens } = useTokenStore();
+  console.log('TokenPage tokens:', tokens);
+  const { contractAddress } = useParams<{ contractAddress: string }>();
+  console.log('TokenPage contractAddress:', contractAddress);
+  
   const [token, setToken] = useState<Partial<Token> | undefined>(undefined);
+  console.log(token);
 
   useEffect(() => {
-    if (id && allTokens[id]) {
-      setToken(allTokens[id]);
+    if (contractAddress) {
+      const foundToken = tokens.find(
+        (t) => t.contractAddress.toLowerCase() === contractAddress.toLowerCase()
+      );
+      setToken(foundToken);
     } else {
       setToken(undefined);
     }
-  }, [id]);
+  }, [contractAddress, tokens]);
 
     return (
         <div className="min-h-screen w-full bg-gradient-to-br from-purple-900 via-blue-900 to-black">

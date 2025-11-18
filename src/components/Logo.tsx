@@ -1,18 +1,47 @@
 export function Logo() {
   return (
     <div className="flex items-center">
-      <svg className="w-10 h-10" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="monadGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style={{ stopColor: '#a855f7', stopOpacity: 1 }} />
-            <stop offset="100%" style={{ stopColor: '#ec4899', stopOpacity: 1 }} />
-          </linearGradient>
-        </defs>
-        <path d="M 50 15 L 75 35 L 75 65 L 50 85 L 25 65 L 25 35 Z" fill="none" stroke="url(#monadGrad)" strokeWidth="5" />
-        <path d="M 50 30 L 65 42 L 65 58 L 50 70 L 35 58 L 35 42 Z" fill="url(#monadGrad)" opacity="0.3" />
-        <circle cx="50" cy="45" r="4" fill="#a855f7" />
-        <path d="M 35 48 L 50 58 L 65 48" stroke="url(#monadGrad)" strokeWidth="4" fill="none" strokeLinecap="round" />
-      </svg>
+      
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="44" height="44" viewBox="0 0 44 44"
+     role="img" aria-label="Neon pink arrow in circle">
+
+  <defs>
+    <filter id="pink-glow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="1.8" result="blur"/>
+      <feFlood floodColor="#ff3ec9" floodOpacity="0.85" result="flood"/>
+      <feComposite in="flood" in2="blur" operator="in" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <g filter="url(#pink-glow)" transform="translate(22,22)">
+    <circle r="14"
+            fill="none"
+            stroke="#ff66d9"
+            strokeWidth="4"
+            strokeLinecap="round"
+            strokeDasharray="90"
+            strokeDashoffset="7" />
+
+    <line x1="-8" y1="0" x2="6" y2="0"
+          stroke="#ff66d9"
+          strokeWidth="4"
+          strokeLinecap="round" />
+
+    <path d="M6 0 L1.5 4 M6 0 L1.5 -4"
+          stroke="#ff66d9"
+          strokeWidth="4"
+          strokeLinecap="round"
+          strokeLinejoin="round" />
+  </g>
+
+  </svg>
+
+
       {/* <img src="/imgs/gnad.png" alt="" style={{width: "32px"}}/> */}
       <h1 className="text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
         <a href="/">GNAD.FUN</a>
@@ -20,3 +49,4 @@ export function Logo() {
     </div>
   );
 }
+

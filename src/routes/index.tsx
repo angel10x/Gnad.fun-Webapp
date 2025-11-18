@@ -8,7 +8,7 @@ export function AppRoutes() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/launch-token" element={<LaunchTokenPage />} />
-        <Route path="/token/:id" element={<TokenPage />} />
+        <Route path="/token/:contractAddress" element={<TokenPage />} />
       </Routes>
     </BrowserRouter>
   );

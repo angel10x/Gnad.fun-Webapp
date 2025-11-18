@@ -19,6 +19,7 @@ export function useWallet() {
   );
 
   const formatAccount = useCallback((address: string) => {
+    console.log('Formatting address:', address);
     if (address.length <= 10) {
       return address;
     }
