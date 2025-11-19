@@ -1,4 +1,6 @@
 import { UTCTimestamp } from 'lightweight-charts';
+import { Activity } from '../types/activity';
+
 
 export const sampleToken = {
   id: 'baby-pepe',
@@ -13,17 +15,15 @@ export const sampleToken = {
   marketCap: 7297.94,
   volume24h: 0,
   priceChange24h: 0,
-};
+};  
 
-export type TX = { id: number; time: string; type: 'Buy' | 'Sell'; usd: number; tokens: string; bnb: number; address: string; tx: string };
-
-export const mockTransactions: TX[] = [
-  { id: 1, time: '17 days ago', type: 'Buy', usd: 18.4, tokens: '2.1M', bnb: 0.01621, address: '0x671...39a', tx: '0xabc' },
-  { id: 2, time: '1 year ago', type: 'Sell', usd: 2.08, tokens: '467.6K', bnb: 0.00366, address: '0x20b...c4e', tx: '0xdef' },
-  { id: 3, time: '1 year ago', type: 'Sell', usd: 9.81, tokens: '2.1M', bnb: 0.01641, address: '0x0d5...169', tx: '0xghi' },
-  { id: 4, time: '1 year ago', type: 'Buy', usd: 13.99, tokens: '3M', bnb: 0.02328, address: '0xa90...561', tx: '0xjkl' },
-  { id: 5, time: '1 year ago', type: 'Sell', usd: 4.11, tokens: '864.8K', bnb: 0.00684, address: '0xf8f...1c0', tx: '0xmno' },
-  { id: 6, time: '1 year ago', type: 'Sell', usd: 4.72, tokens: '988.2K', bnb: 0.00783, address: '0xcda...cca', tx: '0xpqr' },
+export const mockTransactions: Activity[] = [
+  { id: 1, time: '17 days ago', type: 'Buy', usd: 18.4, tokens: '2.1M', bnb: 0.01621, address: 'HtJu6UozP4AzxCGsjkuwqsnauje1ARSVWyZmxCfbGw5q' },
+  { id: 2, time: '1 year ago', type: 'Sell', usd: 2.08, tokens: '467.6K', bnb: 0.00366, address: 'CdFueFKXWQqXhWzSTscXWYk3Miy3XZfKePeJvA8KihdL' },
+  { id: 3, time: '1 year ago', type: 'Sell', usd: 9.81, tokens: '2.1M', bnb: 0.01641, address: 'BrAQiPJdds7iyMzPAN9Wab9Vjug6WsgRJZEZnEhfdJjv' },
+  { id: 4, time: '1 year ago', type: 'Buy', usd: 13.99, tokens: '3M', bnb: 0.02328, address: 'GPEQvAYg8uCumCzZCL3dtoyPCnKycMpk6MWuh3a9hFQA' },
+  { id: 5, time: '1 year ago', type: 'Sell', usd: 4.11, tokens: '864.8K', bnb: 0.00684, address: 'GPEQvAYg8uCumCzZCL3dtoyPCnKycMpk6MWuh3a9hFQA' },
+  { id: 6, time: '1 year ago', type: 'Sell', usd: 4.72, tokens: '988.2K', bnb: 0.00783, address: 'EtjZPdgfWmsAtZoGUvwJNQtFSbw8kqn8FyEmK2Z5pAVr' },
 ];
 
 export const mockHolders = [

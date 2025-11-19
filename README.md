@@ -1,4 +1,5 @@
 # GRA.FUN - Monad Meme Token Launchpad
+**English | [中文](README_CN.md)**
 
 A React + Vite meme token launchpad built with TypeScript and Tailwind CSS.
 
@@ -7,20 +8,38 @@ A React + Vite meme token launchpad built with TypeScript and Tailwind CSS.
 This is a Vite-powered React application:
 
 ```
-/
-├── index.html              # Entry HTML file
-├── vite.config.ts          # Vite configuration
-├── package.json            # Single package.json with all dependencies
-├── tsconfig.json           # TypeScript configuration
-├── App.tsx                 # Main application component
-├── src/
-│   └── main.tsx           # React app entry point
-├── components/
-│   ├── TokenCard.tsx           # Token display card component
-│   ├── CreateTokenDialog.tsx   # Token creation modal
-│   └── ui/                     # Shadcn UI components
-└── styles/
-    └── globals.css        # Global styles and Tailwind configuration
+Gnad.fun-Webapp/
+├── .github/                # GitHub workflows, issue templates, etc.
+├── public/                 # Static assets (images, favicon, etc.)
+│   └── imgs/
+├── src/                    # Source code
+│   ├── assets/             # Static / shared assets (images, icons, fonts)
+│   ├── components/         # Reusable UI components
+│   ├── features/           # Feature-based modules (domain logic)
+│   │   ├── token-launch/     # Token creation wizard
+│   │   │   ├── components/   # UI parts for the wizard
+│   │   │   ├── services/     # Feature logic (e.g. API calls)
+│   │   │   ├── types/        # Feature-specific TypeScript types
+│   │   │   └── index.ts      # Entrypoint / public API of this feature
+│   │   └── trending/         # Trending tokens view
+│   │       ├── components/
+│   │       ├── services/
+│   │       ├── types/
+│   │       └── index.ts
+│   ├── layouts/             # Layouts (e.g. main layout, dashboard layout)
+│   ├── services/            # Shared services (e.g. API client, auth)
+│   ├── styles/               # Global styling (Tailwind config, CSS)
+│   ├── types/                # Shared TS types across the app
+│   ├── utils/                # Utility functions and helpers
+│   ├── charts/               # Chart components / wrappers (Recharts)
+│   ├── icons/                # Icon components (Lucide etc.)
+│   └── main.tsx              # App entry point
+├── tests/                   # Automated tests (unit / integration)
+├── vite.config.ts           # Vite config file
+├── tsconfig.json             # TypeScript config
+├── package.json              # NPM / Yarn dependencies & scripts
+└── README.md                 # Project documentation
+
 ```
 
 ## Features

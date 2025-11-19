@@ -36,7 +36,7 @@ const TrendingCarousel = () => {
               key={`${token.id}-${index}`}
               data-carousel-item
               className="flex items-center gap-3 px-4 py-3 border border-white/10 rounded-lg bg-white/5 hover:bg-white/10 transition-colors cursor-pointer min-w-[180px]"
-              onClick={() => navigate(`/token/${token.id}`)}
+              onClick={() => navigate(`/token/${token.contractAddress}`)}
             >
               <img
                 src={token.imageUrl}

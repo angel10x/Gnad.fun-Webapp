@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { fetchJsonFromIpfs } from '@/utils/ipfs';
 import { useTranslation } from '@/hooks/useTranslation';
 import { useWallet } from '@/hooks/useWallet';
-import { toast } from 'sonner';
+import { handleCopyAddress } from '@/utils/utils';
 
 interface BannerProps {
   token?: Token;
@@ -13,16 +13,8 @@ interface BannerProps {
 
 export default function Banner({ token: initialToken }: BannerProps) {
   const [token, setToken] = useState<Token | undefined>(initialToken);
-  console.log('Banner token:', token);
   const { formatAccount } = useWallet();
   const t = useTranslation();
-
-  const handleCopyAddress = () => {
-    if (token?.contractAddress) {
-      navigator.clipboard.writeText(token.contractAddress);
-      toast.success('Contract address copied to clipboard');
-    }
-  }; 
 
   useEffect(() => {
     setToken(initialToken);
@@ -68,8 +60,8 @@ export default function Banner({ token: initialToken }: BannerProps) {
             <div className="flex items-center font-base-white/70 ">
               <span className='text-sm '>({formatAccount(token?.contractAddress ?? '')})</span>
               <button
-                onClick={handleCopyAddress}
-                className="p-1 rounded hover:bg-white/10 transition-colors text-white/60 hover:text-white"
+                onClick={() => handleCopyAddress(token?.contractAddress ?? '')}
+                className="p-1 rounded transition-colors text-white/60 hover:text-white cursor-pointer"
                 title="Copy contract address"
               >
                 <Copy size={14} />
