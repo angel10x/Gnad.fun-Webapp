@@ -1,13 +1,10 @@
 import { bondingCurveData } from '../../utils/mockTokenData';
-import { useState } from 'react';
 import { useTranslation } from '@/hooks/useTranslation';
 import TradePanel from './TradePanel';
 
 export default function BondingPanel() {
   const t = useTranslation();
   const data = bondingCurveData;
-  const [mode, setMode] = useState<'buy' | 'sell'>('buy');
-  const [amount, setAmount] = useState('');
 
   return (
     <div className="p-4 space-y-4">
