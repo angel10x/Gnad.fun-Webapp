@@ -50,7 +50,7 @@ export default function TokenPage() {
                         <div className="" style={{flex: "1"}}>
                             <div className="space-y-4 md:sticky md:top-6">
                                 <BondingPanel />
-                                <HoldersPanel />
+                                {/* <HoldersPanel /> */}
                             </div>
                         </div>
                     </div>

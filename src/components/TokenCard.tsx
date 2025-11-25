@@ -1,5 +1,6 @@
 import { Card } from "./ui/card";
 import { Badge } from "./ui/badge";
+import { Progress } from "./ui/progress";
 import { TrendingUp, TrendingDown, Users, DollarSign } from "lucide-react";
 import { formatNumber, formatPrice, getTimeAgo } from "../utils/formatters";
 import type { Token } from "../types/token";
@@ -18,20 +19,22 @@ export function TokenCard({ token }: TokenCardProps) {
   return (
     <Card
       onClick={() => navigate(`/token/${token.contractAddress}`)}
-      className="bg-white/5 border-white/10 backdrop-blur-lg overflow-hidden hover:bg-white/10 transition-all hover:scale-105 cursor-pointer"
+      className="bg-white/5 border-white/10 backdrop-blur-lg overflow-hidden hover:shadow-lg hover:bg-white/10 transition-all hover:scale-105 cursor-pointer"
     >
-      <div className="p-6">
+      <div className="w-full flex flex-col justify-between">
         {/* Header */}
-        <div className="flex items-start gap-4 mb-4">
-          <img 
-            src={token.imageUrl} 
-            alt={token.name}
-            className="size-16 rounded-full object-cover border-2 border-white/20"
-          />
+        <div className="flex flex-col items-start gap-4 mb-4 p-2">
+          <div>
+            <img
+              src={token.imageUrl}
+              alt={token.name}
+              className="w-full object-contain border-2 rounded-lg border-white/20"
+            />
+          </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-1">
-              <h3 className="text-white truncate">{token.name}</h3>
-              <Badge variant="outline" className="border-purple-400/50 text-purple-400">
+              <h3 className="text-white font-semibold truncate">{token.name}</h3>
+              <Badge variant="outline" className="border-purple-400/50 text-purple-400 font-semibold">
                 ${token.symbol}
               </Badge>
             </div>
@@ -39,23 +42,8 @@ export function TokenCard({ token }: TokenCardProps) {
           </div>
         </div>
 
-        {/* Chart */}
-        {/* <div className="h-20 mb-4 -mx-2">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={token.chartData}>
-              <Line 
-                type="monotone" 
-                dataKey="price" 
-                stroke={isPositive ? '#10b981' : '#ef4444'} 
-                strokeWidth={2}
-                dot={false}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </div> */}
-
         {/* Price Info */}
-        <div className="space-y-3 mb-4">
+        <div className="mb-4 p-2">
           <div className="flex items-center justify-between">
             <span className="text-white/50 text-sm">{t.tokenCard.price}</span>
             <span className="text-white">{formatPrice(token.price)}</span>
@@ -74,32 +62,35 @@ export function TokenCard({ token }: TokenCardProps) {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 gap-3 mb-4">
-          <div className="bg-white/5 rounded-lg p-3">
-            <div className="flex items-center gap-2 mb-1">
-              <DollarSign className="size-4 text-white/50" />
-              <span className="text-white/50 text-xs">{t.tokenCard.marketCap}</span>
+        <div className="">
+          <div className=" bg-white/5 p-3">
+            <div className="flex justify-between">
+              <div className="flex items-center gap-2 mb-1">
+                {/* <DollarSign className="size-4 text-white/50" /> */}
+                <span className="text-white/50 text-xs">{t.tokenCard.marketCap}</span>
+              </div>
+              <div className="text-white text-sm">{formatNumber(token.marketCap)}</div>
             </div>
-            <div className="text-white text-sm">{formatNumber(token.marketCap)}</div>
+            <Progress value={Math.min(token.marketCap / 1000000000 * 100, 100)} className="py-1" />
           </div>
-          <div className="bg-white/5 rounded-lg p-3">
+          {/* <div className="bg-white/5 rounded-lg p-3">
             <div className="flex items-center gap-2 mb-1">
               <Users className="size-4 text-white/50" />
               <span className="text-white/50 text-xs">{t.tokenCard.holders}</span>
             </div>
             <div className="text-white text-sm">{token.holders.toLocaleString()}</div>
-          </div>
+          </div> */}
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between pt-4 border-t border-white/10">
+        {/* <div className="flex items-center justify-between pt-4 border-t border-white/10">
           <div className="text-white/50 text-xs">
             {t.tokenCard.by} {token.creator}
           </div>
           <div className="text-white/50 text-xs">
             {getTimeAgo(token.createdAt)}
           </div>
-        </div>
+        </div> */}
       </div>
     </Card>
   );

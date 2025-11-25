@@ -43,7 +43,7 @@ export function Logo() {
 
 
       {/* <img src="/imgs/gnad.png" alt="" style={{width: "32px"}}/> */}
-      <h1 className="text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
+      <h1 className="text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400" style={{ fontFamily: 'cursive' }}>
         <a href="/">GNAD.FUN</a>
       </h1>
     </div>
