@@ -9,9 +9,10 @@ import { useTranslation } from "../hooks/useTranslation";
 
 interface TokenCardProps {
   token: Token;
+  isFirst?: boolean;
 }
 
-export function TokenCard({ token }: TokenCardProps) {
+export function TokenCard({ token, isFirst = false }: TokenCardProps) {
   const isPositive = token.priceChange24h >= 0;
   const navigate = useNavigate();
   const t = useTranslation();
@@ -19,16 +20,16 @@ export function TokenCard({ token }: TokenCardProps) {
   return (
     <Card
       onClick={() => navigate(`/token/${token.contractAddress}`)}
-      className="bg-white/5 border-white/10 backdrop-blur-lg overflow-hidden hover:shadow-lg hover:bg-white/10 transition-all hover:scale-105 cursor-pointer"
+      className={`bg-white/5 border-white/10 backdrop-blur-lg overflow-hidden hover:shadow-lg hover:bg-white/10 transition-all hover:scale-105 cursor-pointer ${isFirst ? 'vibrate' : ''}`}
     >
       <div className="w-full flex flex-col justify-between">
         {/* Header */}
         <div className="flex flex-col items-start gap-4 mb-4 p-2">
-          <div>
+          <div className="w-full">
             <img
               src={token.imageUrl}
               alt={token.name}
-              className="w-full object-contain border-2 rounded-lg border-white/20"
+              className="h-64 w-full object-fill border-2 rounded-lg border-white/20"
             />
           </div>
           <div className="flex-1 min-w-0">

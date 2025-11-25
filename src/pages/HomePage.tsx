@@ -62,24 +62,24 @@ export default function HomePage() {
 
           <TabsContent value="trending">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-5 xl:grid-cols-4 gap-6">
-              {trendingTokens.map((token) => (
-                <TokenCard key={token.contractAddress} token={token} />
+              {trendingTokens.map((token, index) => (
+                <TokenCard key={token.contractAddress} token={token} isFirst={index === 0} />
               ))}
             </div>
           </TabsContent>
 
           <TabsContent value="marketcap">
             <div className="grid grid-cols-1 sm:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-4 gap-6">
-              {topmarketcapTokens.map((token) => (
-                <TokenCard key={token.contractAddress} token={token} />
+              {topmarketcapTokens.map((token, index) => (
+                <TokenCard key={token.contractAddress} token={token} isFirst={index === 0} />
               ))}
             </div>
           </TabsContent>
 
           <TabsContent value="recent">
             <div className="grid grid-cols-1 sm:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-4 gap-6">
-              {recentTokens.map((token) => (
-                <TokenCard key={token.contractAddress} token={token} />
+              {recentTokens.map((token, index) => (
+                <TokenCard key={token.contractAddress} token={token} isFirst={index === 0} />
               ))}
             </div>
           </TabsContent>
