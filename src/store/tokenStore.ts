@@ -4,8 +4,8 @@ import type { Token } from "../types/token";
 export const defaultTokens: Token[] = [
   {
     id: "1",
-    name: "Pepe Doge",
-    symbol: "PEPE",
+    name: "Doge King",
+    symbol: "DOGEKING",
     contractAddress: "0xaa0355359b71eb560c1c04683d42fc6eb13ec046",
     description: "To the moon! 🚀 The next generation of dog coins.",
     imageUrl:
@@ -27,8 +27,8 @@ export const defaultTokens: Token[] = [
   },
   {
     id: "2",
-    name: "Frog",
-    symbol: " FROG",
+    name: "MooGra",
+    symbol: " MGRA",
     contractAddress: "0xbb0355359b71eb560c1c04683d42fc6eb13ec046",
     description: "Rare pepe going vertical 📈",
     imageUrl:
@@ -50,8 +50,8 @@ export const defaultTokens: Token[] = [
   },
   {
     id: "3",
-    name: "Monkey",
-    symbol: "MONKEY",
+    name: "Anger",
+    symbol: "ANGER",
     contractAddress: "0xcc0355359b71eb560c1c04683d42fc6eb13ec046",
     description: "The OG is back with a vengeance 🐕",
     imageUrl:
@@ -73,8 +73,8 @@ export const defaultTokens: Token[] = [
   },
   {
     id: "4",
-    name: "Cat",
-    symbol: "CAT",
+    name: "CZ",
+    symbol: "CZ",
     contractAddress: "0xdd0355359b71eb560c1c04683d42fc6eb13ec046",
     description: "This time it's actually safe, trust me bro 🔒",
     imageUrl:
