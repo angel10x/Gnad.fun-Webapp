@@ -21,7 +21,7 @@ export default function TradePanel() {
   };
 
   return (
-    <div className='bg-white/10 p-6 rounded-md bg-gray-900'>
+    <div className='border border-white/10 bg-white/10 p-6 rounded-md bg-transparent'>
         <div className="grid grid-cols-2 mb-8">
           <button onClick={() => setMode('buy')} className={`${mode === 'buy' ? 'bg-btn-buy text-black' : 'bg-gray-500 text-white'} py-2 rounded-md cursor-pointer`}>{t.trading.buy}</button>
           <button onClick={() => setMode('sell')} className={`${mode === 'sell' ? 'bg-btn-sell text-white' : 'bg-gray-500 text-white'} py-2 rounded-md cursor-pointer`}>{t.trading.sell}</button>
@@ -43,7 +43,7 @@ export default function TradePanel() {
           </div>
         </div>
         </div>
-        <button className="w-full py-3 rounded-md font-semibold" disabled style={{ backgroundColor: "#CCAE00", opacity: amount > 0 && slip > 0 ? "1" : ".6" }}>{t.common.connectWallet}</button>
+        <button className="w-full py-3 rounded-md font-semibold" disabled style={{ backgroundColor: "#ffd102ff", opacity: amount > 0 && slip > 0 ? "1" : ".8" }}>{t.common.connectWallet}</button>
       </div>
       
     // <div className="bg-white/10 p-4 rounded-md bg-gray-900">

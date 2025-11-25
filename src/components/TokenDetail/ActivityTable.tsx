@@ -9,8 +9,8 @@ export default function ActivityTable() {
   const { formatAccount } = useWallet();
 
   return (
-    <div className="bg-[#0d0d0d] rounded-[12px] shadow-sm p-4">
-      <h3 className="text-white font-semibold mb-4" style={{ fontSize: "1.5em", fontWeight: "700" }}>Transactions</h3>
+    <div className="bg-[#0d0d0d] rounded-[12px] shadow-sm p-6 mt-4">
+      {/* <h3 className="text-white font-semibold mb-4" style={{ fontSize: "1.5em", fontWeight: "700" }}>Transactions</h3> */}
       <Pagination data={mockTransactions} itemsPerPage={10}>
         {(paginatedData) => (
           <div className="overflow-auto rounded">
@@ -29,12 +29,14 @@ export default function ActivityTable() {
                 {paginatedData.map((tx, idx) => (
                   <tr key={tx.id} className={`${idx % 2 === 0 ? 'bg-white/2' : ''} hover:bg-white/5 transition-colors`}>
                     <td className="py-2 text-white/80">{tx.time}</td>
-                    <td className="px-3 py-2"><span className={`py-1 rounded-full text-xs font-bold ${tx.type === 'Sell' ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}`}>{tx.type.toUpperCase()}</span></td>
+                    <td className="px-3 py-2"><span className={`py-1 rounded-full text-xs font-semibold ${tx.type === 'Sell' ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}`}>{tx.type.toUpperCase()}</span></td>
                     <td className="px-3 py-2 text-white/80">{tx.usd}</td>
                     <td className="px-3 py-2 text-white/80">{tx.tokens}</td>
                     <td className="px-3 py-2 text-white/80">{tx.bnb}</td>
-                    <td className="px-3 py-2 text-white/60 font-mono">
-                      {formatAccount(tx.address)}
+                    <td className="flex justify-between align-middle items-center w-54 gap-x-2 px-3 py-2 text-white/60 font-mono">
+                      <div>
+                        {formatAccount(tx.address)}
+                      </div>
                       <button
                         onClick={() => handleCopyAddress(tx?.address ?? '')}
                         className="p-1 rounded transition-colors hover:text-white cursor-pointer"

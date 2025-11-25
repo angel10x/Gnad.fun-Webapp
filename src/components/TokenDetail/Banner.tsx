@@ -52,12 +52,12 @@ export default function Banner({ token: initialToken }: BannerProps) {
   return (
     <div className="bg-[#0d0d0d] rounded-[12px] shadow-sm p-6">
       <div className="flex items-start gap-4">
-        <img src={(token?.imageUrl) ?? sampleToken.imageUrl} alt={(token?.name) ?? sampleToken.name} className="size-16 rounded-full border-2 border-white/10" />
+        <img src={(token?.imageUrl) ?? sampleToken.imageUrl} alt={(token?.name) ?? sampleToken.name} className="size-24 rounded-full border-2 border-white/10" />
         <div className="flex-1">
-          <div className="flex items-center gap-3">
-            <h2 className="text-white font-bold" style={{ fontSize: "22px" }}>{(token?.name) ?? sampleToken.name}</h2>
-            <span className="text-white/60" style={{ fontSize: "22px", color: "#ffffffb2" }}>({(token?.symbol) ?? sampleToken.symbol})</span>
-            <div className="flex items-center font-base-white/70 ">
+          <div className="flex items-center gap-1">
+            <h2 className="text-white font-semibold" style={{ fontSize: "22px" }}>{(token?.name) ?? sampleToken.name}</h2>
+            <span className="text-white/60" style={{ fontSize: "20px", color: "#ffffffb2" }}>({(token?.symbol) ?? sampleToken.symbol})</span>
+            <div className="flex items-center font-base-white/70 p-3">
               <span className='text-sm '>({formatAccount(token?.contractAddress ?? '')})</span>
               <button
                 onClick={() => handleCopyAddress(token?.contractAddress ?? '')}
@@ -69,10 +69,10 @@ export default function Banner({ token: initialToken }: BannerProps) {
             </div>
           </div>
           <p className="font-base-white/70 text-base-sm mt-3">{(token?.description) ?? sampleToken.description}</p>
-          <div className="flex items-center gap-3 mt-2 text-xs text-white/60">
-            <div className='font-base-white/70'>{t.tokenCard.creator} <span className="text-white">{(token?.creator) ?? sampleToken.creator}</span></div>
-            <div className='text-white'>•</div>
-            <div className='font-base-sm bg-[#434344] text-white'>{t.tokenCard.created} 1 year ago</div>
+          <div className="flex items-center gap-3 md:gap-6 mt-2 text-xs text-white/60">
+            <div className='font-base-white/70'> <span className="text-white">{(token?.creator) ?? sampleToken.creator}</span></div>
+            {/* <div className='text-white'>•</div> */}
+            <div className='bg-[#434344] font-base-white/70 px-6'>1 year ago</div>
             {/* <button className="ml-2 text-white/60 hover:text-white"><FaRegCopy /></button> */}
           </div>
         </div>
