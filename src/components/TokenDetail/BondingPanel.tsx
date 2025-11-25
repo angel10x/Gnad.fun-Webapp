@@ -8,7 +8,7 @@ export default function BondingPanel() {
 
   return (
     <div className="p-4 space-y-4">
-      <div className='border border-white/70 md:space-y-2 p-3 rounded-md mb-4'>
+      <div className='border-2 border-purple-900 rounded-lg md:space-y-2 p-3 rounded-md mb-12'>
         <div className="text-center">
           <h3 className="text-white font-semibold">{t.trading.bondingCurve}</h3>
         </div>
@@ -29,7 +29,7 @@ export default function BondingPanel() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 mb-4">
+      <div className="grid grid-cols-2 gap-4 mb-12">
         <div className="p-3 rounded-md bg-white/5 text-center">
           <div className="font-base-white/70 text-sm">{t.trading.price}</div>
           <div className="text-white font-bold text-lg">0.0{(778).toString()}</div>

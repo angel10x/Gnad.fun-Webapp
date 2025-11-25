@@ -1,7 +1,7 @@
 export const translations = {
   en: {
     header: {
-      connectWallet: 'Connect Wallet',
+      connectWallet: 'Connect',
       connecting: 'Connecting…',
     },
     wallet: {

@@ -1,5 +1,4 @@
 import { useMemo, useState } from 'react';
-import Toolbar from './Toolbar';
 import RangeSlider from './RangeSlider';
 import { useTradingViewChart } from '../../hooks/useTradingViewChart';
 import { generateMockOHLCV } from '@/utils/mockTokenData';
@@ -35,9 +34,9 @@ export default function TradingViewChart({ className }: { className?: string }) 
   return (
     <div className={`w-full h-full flex ${className || ''}`}>
       <div className="flex-1 flex flex-col">
-        <Toolbar/>
+        {/* <Toolbar/> */}
 
-        <div className="flex-1 flex overflow-hidden">
+        <div className="flex-1 flex overflow-hidden rounded-xl">
           <div className="flex-1 overflow-hidden flex flex-col">
             {/* Chart container; hook mounts chart here */}
             <div ref={containerRef} className="w-full h-full" style={{ minHeight: 360 }} />

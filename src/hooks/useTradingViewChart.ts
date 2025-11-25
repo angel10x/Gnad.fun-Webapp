@@ -62,7 +62,7 @@ export function useTradingViewChart(
       width: containerRef.current.clientWidth,
       height: containerRef.current.clientHeight,
       layout: {
-        background: { color: options?.dark ? '#0b0f14' : '#ffffff' },
+        background: { color: options?.dark ? '#7c2ff7ff' : '#ffffff' },
         textColor: options?.dark ? '#e6eef8' : '#222222',
       },
       grid: {

@@ -1,26 +1,39 @@
 import { Logo } from './Logo';
 import { WalletDropdown } from './WalletConnect/WalletDropdown';
-import { ChevronDown } from 'lucide-react';
-import { useGlobalContext } from '../context/GlobalContext';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-  DropdownMenuItem,
-} from '@/components/ui/dropdown-menu';
-import { Button } from '@/components/ui/button';
-import { useState } from 'react';
-// import { useTranslation } from '../hooks/useTranslation';
+import { useCallback, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
+import { useWallet } from '../hooks/useWallet';
+import { PlusCircle, Search } from 'lucide-react';
 
 interface HeaderProps {
   sticky?: boolean;
   className?: string;
+  searchTerm?: string;
+  setSearchTerm?: (term: string) => void;
 }
 
-export function Header({ sticky = false, className = '' }: HeaderProps) {
+export function Header({ sticky = false, className = '', searchTerm, setSearchTerm }: HeaderProps) {
   const stickyCls = sticky ? 'sticky top-0 z-40' : '';
-  const { language, setLanguage } = useGlobalContext();
-  const [isLangOpen, setIsLangOpen] = useState(false);
+  // const { language, setLanguage } = useGlobalContext();
+  // const [isLangOpen, setIsLangOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const navigate = useNavigate();
+  const {
+    account,
+    connectWallet,
+  } = useWallet();
+
+  const handleLaunchTokenClick = useCallback(() => {
+    // if (account) {
+    navigate('/launch-token');
+    //   return;
+    // }
+
+    // void connectWallet();
+
+  }, [account, connectWallet, navigate]);
 
   return (
     <header className={`border-b border-white/10 bg-black/20 backdrop-blur-lg ${stickyCls} ${className}`.trim()}>
@@ -28,23 +41,42 @@ export function Header({ sticky = false, className = '' }: HeaderProps) {
         <div className="flex items-center justify-between">
           <Logo />
           <div className="flex items-center gap-4">
-            {/* <div className="flex items-center gap-3">
-              {SOCIAL_LINKS.map(({ href, label, Icon }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="size-9 rounded-full border border-purple-500/30 flex items-center justify-center text-purple-400 hover:text-white hover:border-purple-400 hover:bg-purple-500/20 transition-all"
-                  aria-label={label}
+            {setSearchTerm && (
+              isSearchOpen ? (
+                <div className="relative max-w-md">
+                  <Input
+                    type="text"
+                    placeholder="Search tokens..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onBlur={() => setIsSearchOpen(false)}
+                    className="bg-white/5 border-white/10 text-white placeholder-gray-400"
+                    autoFocus
+                  />
+                </div>
+              ) : (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setIsSearchOpen(true)}
+                  className="text-white cursor-pointer hover:bg-white/10"
                 >
-                  <Icon className="size-4" />
-                </a>
-              ))}
-            </div> */}
+                  <Search className="size-6" />
+                </Button>
+              )
+            )}
+            <div className="text-center">
+              <Button
+                onClick={handleLaunchTokenClick}
+                className="p-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 cursor-pointer"
+              >
+                <PlusCircle className="size-4" />
+                Create
+              </Button>
+            </div>
             <WalletDropdown />
-            <DropdownMenu open={isLangOpen} onOpenChange={setIsLangOpen}>
-              <DropdownMenuTrigger asChild>
+            {/* <DropdownMenu open={isLangOpen} onOpenChange={setIsLangOpen}> */}
+            {/* <DropdownMenuTrigger asChild>
                 <Button
                   variant="outline"
                   size="default"
@@ -55,8 +87,8 @@ export function Header({ sticky = false, className = '' }: HeaderProps) {
                     className={`size-4 transition-transform duration-200 ${isLangOpen ? "rotate-180" : ""}`}
                   />
                 </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent 
+              </DropdownMenuTrigger> */}
+            {/* <DropdownMenuContent 
                 align="end" 
                 className="w-40 bg-slate-950/98 border border-purple-500/30 backdrop-blur-lg rounded-xl shadow-2xl p-2 space-y-1"
               >
@@ -78,8 +110,8 @@ export function Header({ sticky = false, className = '' }: HeaderProps) {
                 >
                   中文
                 </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+              </DropdownMenuContent> */}
+            {/* </DropdownMenu> */}
           </div>
         </div>
       </div>

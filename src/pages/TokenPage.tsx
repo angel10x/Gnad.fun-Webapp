@@ -1,7 +1,6 @@
 import TradingViewChart from '@/components/TradingViewChart';
 import Banner from '@/components/TokenDetail/Banner';
 import BondingPanel from '@/components/TokenDetail/BondingPanel';
-import HoldersPanel from '@/components/TokenDetail/HoldersPanel';
 import Header from '@/components/Header';
 import TrendingCarousel from '@/components/TrendingCarousel';
 import { useParams } from 'react-router-dom';
@@ -35,11 +34,11 @@ export default function TokenPage() {
                     <div className="flex flex-row md:flex-row gap-4 md:gap-6">
 
                         {/* CENTER */}
-                        <div className="border border-white/70 " style={{flex: "2"}}>
+                        <div className="min-h-screen bg-purple-300 border-2 border-purple-900 rounded-lg md:p-5 mt-8 md:space-y-8 mb-4" style={{flex: "2"}}>
                             <div className="space-y-4 md:space-y-6">
                                 <Banner token={token as Token} />
 
-                                <div className="bg-[#111] rounded-[12px] shadow-sm">
+                                <div className="rounded-[12px] shadow-sm px-6 rounded-lg">
                                     <TradingViewChart />
                                 </div>
                                 <ActivityTable />
@@ -48,9 +47,9 @@ export default function TokenPage() {
 
                         {/* RIGHT */}
                         <div className="" style={{flex: "1"}}>
-                            <div className="space-y-4 md:sticky md:top-6">
+                            <div className="min-h-screen bg-purple-300 p-2 border-2 border-purple-900 rounded-lg  mt-8 md:sticky md:mt-8">
                                 <BondingPanel />
-                                <HoldersPanel />
+                                {/* <HoldersPanel /> */}
                             </div>
                         </div>
                     </div>

@@ -119,10 +119,13 @@ export function useWallet() {
     try {
       setWalletError(null);
       setIsConnecting(true);
+      console.log("Connecting to MetaMask...", isConnecting);
 
       const accounts = (await window.ethereum?.request({
         method: "eth_requestAccounts",
       })) as string[];
+
+      console.log("isConnecting:", isConnecting);
 
       if (!Array.isArray(accounts) || accounts.length === 0) {
         setWalletError("No accounts found in MetaMask.");

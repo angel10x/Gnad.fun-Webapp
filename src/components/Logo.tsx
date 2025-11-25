@@ -2,7 +2,7 @@ export function Logo() {
   return (
     <div className="flex items-center">
       
-<svg xmlns="http://www.w3.org/2000/svg"
+{/* <svg xmlns="http://www.w3.org/2000/svg"
      width="44" height="44" viewBox="0 0 44 44"
      role="img" aria-label="Neon pink arrow in circle">
 
@@ -39,11 +39,11 @@ export function Logo() {
           strokeLinejoin="round" />
   </g>
 
-  </svg>
+  </svg> */}
 
 
       {/* <img src="/imgs/gnad.png" alt="" style={{width: "32px"}}/> */}
-      <h1 className="text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
+      <h1 className="text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400" style={{ fontFamily: 'cursive' }}>
         <a href="/">GNAD.FUN</a>
       </h1>
     </div>
