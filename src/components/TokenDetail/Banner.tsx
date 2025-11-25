@@ -3,7 +3,6 @@ import { Copy } from 'lucide-react';
 import type { Token } from '../../types/token';
 import { useEffect, useState } from 'react';
 import { fetchJsonFromIpfs } from '@/utils/ipfs';
-import { useTranslation } from '@/hooks/useTranslation';
 import { useWallet } from '@/hooks/useWallet';
 import { handleCopyAddress } from '@/utils/utils';
 
@@ -14,7 +13,6 @@ interface BannerProps {
 export default function Banner({ token: initialToken }: BannerProps) {
   const [token, setToken] = useState<Token | undefined>(initialToken);
   const { formatAccount } = useWallet();
-  const t = useTranslation();
 
   useEffect(() => {
     setToken(initialToken);

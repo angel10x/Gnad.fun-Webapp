@@ -1,8 +1,8 @@
 import { Card } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Progress } from "./ui/progress";
-import { TrendingUp, TrendingDown, Users, DollarSign } from "lucide-react";
-import { formatNumber, formatPrice, getTimeAgo } from "../utils/formatters";
+import { TrendingUp, TrendingDown } from "lucide-react";
+import { formatNumber, formatPrice } from "../utils/formatters";
 import type { Token } from "../types/token";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "../hooks/useTranslation";

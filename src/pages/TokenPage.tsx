@@ -1,7 +1,6 @@
 import TradingViewChart from '@/components/TradingViewChart';
 import Banner from '@/components/TokenDetail/Banner';
 import BondingPanel from '@/components/TokenDetail/BondingPanel';
-import HoldersPanel from '@/components/TokenDetail/HoldersPanel';
 import Header from '@/components/Header';
 import TrendingCarousel from '@/components/TrendingCarousel';
 import { useParams } from 'react-router-dom';
