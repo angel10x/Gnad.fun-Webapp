@@ -13,11 +13,18 @@ import { useTokenStore } from '../store/tokenStore';
 import { sortTokensByTrending, sortTokensByMarketCap, sortTokensByRecent } from '../utils/tokenSorting';
 import { Clock, Flame, ChartArea } from 'lucide-react';
 import { useTranslation } from '../hooks/useTranslation';
+import { useRealTimeTokenUpdates } from '../hooks/useRealTimeTokenUpdates';
 
 export default function HomePage() {
-  const { tokens } = useTokenStore();
+  const { tokens, setTokens } = useTokenStore();
   const t = useTranslation();
   const [searchTerm, setSearchTerm] = useState('');
+
+  useRealTimeTokenUpdates(tokens, setTokens, {
+    updateInterval: 2000,
+    priceChangeRange: [-3, 3],
+    marketCapVariation: 0.01,
+  });
 
   const filteredTokens = tokens.filter(token =>
     token.name.toLowerCase().includes(searchTerm.toLowerCase())
