@@ -6,6 +6,7 @@ import { formatNumber, formatPrice } from "../utils/formatters";
 import type { Token } from "../types/token";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "../hooks/useTranslation";
+import { LazyImage } from "./LazyImage";
 
 interface TokenCardProps {
   token: Token;
@@ -26,10 +27,11 @@ export function TokenCard({ token, isFirst = false }: TokenCardProps) {
         {/* Header */}
         <div className="flex flex-col items-start gap-4 mb-4 p-2">
           <div className="w-full">
-            <img
+            <LazyImage
               src={token.imageUrl}
               alt={token.name}
               className="h-64 w-full object-fill border-2 rounded-lg border-white/20"
+              animationType="fade"
             />
           </div>
           <div className="flex-1 min-w-0">
